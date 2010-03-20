@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>TrackerWindow</class>
+ <widget class="QMainWindow" name="TrackerWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MyKSC Email Tracker</string>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QGridLayout" name="gridLayout">
+    <property name="margin">
+     <number>0</number>
+    </property>
+    <item row="0" column="0">
+     <widget class="QWebView" name="webView">
+      <property name="url">
+       <url>
+        <string>about:blank</string>
+       </url>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="timeLabel">
+      <property name="text">
+       <string>TextLabel</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menu_File">
+    <property name="title">
+     <string>&amp;File</string>
+    </property>
+    <addaction name="actionE_xit"/>
+   </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>&amp;Help</string>
+    </property>
+    <addaction name="actionAbout"/>
+   </widget>
+   <widget class="QMenu" name="menu_Tools">
+    <property name="title">
+     <string>&amp;Tools</string>
+    </property>
+    <addaction name="actionOptions"/>
+    <addaction name="separator"/>
+    <addaction name="actionCheck_for_Updates"/>
+   </widget>
+   <widget class="QMenu" name="menuNavigate">
+    <property name="title">
+     <string>Navigate</string>
+    </property>
+    <addaction name="actionMyKSC_Home"/>
+    <addaction name="actionMyKSC_Inbox"/>
+   </widget>
+   <addaction name="menu_File"/>
+   <addaction name="menuNavigate"/>
+   <addaction name="menu_Tools"/>
+   <addaction name="menuHelp"/>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+  </widget>
+  <action name="actionE_xit">
+   <property name="text">
+    <string>E&amp;xit</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="text">
+    <string>About</string>
+   </property>
+  </action>
+  <action name="actionCheck_for_Updates">
+   <property name="text">
+    <string>Check for Updates</string>
+   </property>
+  </action>
+  <action name="actionOptions">
+   <property name="text">
+    <string>&amp;Options...</string>
+   </property>
+  </action>
+  <action name="actionMyKSC_Home">
+   <property name="text">
+    <string>MyKSC Home</string>
+   </property>
+  </action>
+  <action name="actionMyKSC_Inbox">
+   <property name="text">
+    <string>MyKSC Inbox</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>QWebView</class>
+   <extends>QWidget</extends>
+   <header>QtWebKit/QWebView</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>actionE_xit</sender>
+   <signal>triggered()</signal>
+   <receiver>TrackerWindow</receiver>
+   <slot>exit()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>299</x>
+     <y>199</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionOptions</sender>
+   <signal>triggered()</signal>
+   <receiver>TrackerWindow</receiver>
+   <slot>options()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>299</x>
+     <y>199</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionCheck_for_Updates</sender>
+   <signal>triggered()</signal>
+   <receiver>TrackerWindow</receiver>
+   <slot>checkForUpdates()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>299</x>
+     <y>199</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionAbout</sender>
+   <signal>triggered()</signal>
+   <receiver>TrackerWindow</receiver>
+   <slot>about()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>299</x>
+     <y>199</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>webView</sender>
+   <signal>loadFinished(bool)</signal>
+   <receiver>TrackerWindow</receiver>
+   <slot>browserLoaded(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>299</x>
+     <y>206</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>299</x>
+     <y>199</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionMyKSC_Home</sender>
+   <signal>triggered()</signal>
+   <receiver>TrackerWindow</receiver>
+   <slot>navigateHome()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>299</x>
+     <y>199</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionMyKSC_Inbox</sender>
+   <signal>triggered()</signal>
+   <receiver>TrackerWindow</receiver>
+   <slot>navigateInbox()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>299</x>
+     <y>199</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>TrackerWindow</sender>
+   <signal>destroyed()</signal>
+   <receiver>TrackerWindow</receiver>
+   <slot>exit()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>399</x>
+     <y>299</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>299</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>about()</slot>
+  <slot>checkForUpdates()</slot>
+  <slot>options()</slot>
+  <slot>exit()</slot>
+  <slot>browserLoaded(bool)</slot>
+  <slot>navigateHome()</slot>
+  <slot>navigateInbox()</slot>
+ </slots>
+</ui>

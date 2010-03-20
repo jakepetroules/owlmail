@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>AlertDialog</class>
+ <widget class="QDialog" name="AlertDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>600</width>
+    <height>16</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>New MyKSC Email Messages</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <property name="margin">
+    <number>0</number>
+   </property>
+   <item row="0" column="0">
+    <widget class="QWebView" name="webView">
+     <property name="url">
+      <url>
+       <string>about:blank</string>
+      </url>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QWebView</class>
+   <extends>QWidget</extends>
+   <header>QtWebKit/QWebView</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>webView</sender>
+   <signal>loadFinished(bool)</signal>
+   <receiver>AlertDialog</receiver>
+   <slot>loadFinished(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>239</x>
+     <y>319</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>239</x>
+     <y>319</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>webView</sender>
+   <signal>linkClicked(QUrl)</signal>
+   <receiver>AlertDialog</receiver>
+   <slot>linkClicked(QUrl)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>239</x>
+     <y>319</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>239</x>
+     <y>319</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>loadFinished(bool)</slot>
+  <slot>linkClicked(QUrl)</slot>
+ </slots>
+</ui>
