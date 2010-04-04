@@ -4,14 +4,13 @@
 #include <QDesktopWidget>
 #include <QWebFrame>
 
-AlertDialog::AlertDialog(QWidget *parent) :
+AlertDialog::AlertDialog(QWidget* parent) :
     QDialog(parent),
     ui(new Ui::AlertDialog)
 {
-    ui->setupUi(this);
+    this->ui->setupUi(this);
 
-    //this->setFixedSize(this->size());
-    this->setWindowFlags(windowFlags() | Qt::Tool | Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint /*| Qt::WA_MacAlwaysShowToolWindow*/);
+    this->setWindowFlags(windowFlags() | Qt::Tool | Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint);
 }
 
 AlertDialog::~AlertDialog()
@@ -19,15 +18,16 @@ AlertDialog::~AlertDialog()
     delete ui;
 }
 
-void AlertDialog::changeEvent(QEvent *e)
+void AlertDialog::changeEvent(QEvent* e)
 {
     QDialog::changeEvent(e);
-    switch (e->type()) {
-    case QEvent::LanguageChange:
-        ui->retranslateUi(this);
-        break;
-    default:
-        break;
+    switch (e->type())
+    {
+        case QEvent::LanguageChange:
+            this->ui->retranslateUi(this);
+            break;
+        default:
+            break;
     }
 }
 
@@ -37,8 +37,8 @@ void AlertDialog::show(QList<MailMessageInfo>* messages)
     this->generateMarkup(messages);
 }
 
-/**
- * Places the alert form in the bottom-right corner of the screen.
+/*!
+    Places the alert form in the bottom-right corner of the screen.
  */
 void AlertDialog::snapToCorner()
 {

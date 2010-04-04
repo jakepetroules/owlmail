@@ -1,8 +1,8 @@
 /********************************************************************************
 ** Form generated from reading UI file 'trackerwindow.ui'
 **
-** Created: Fri Jan 29 19:38:09 2010
-**      by: Qt User Interface Compiler version 4.6.1
+** Created: Sat Apr 3 22:14:35 2010
+**      by: Qt User Interface Compiler version 4.6.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -20,8 +20,7 @@
 #include <QtGui/QMainWindow>
 #include <QtGui/QMenu>
 #include <QtGui/QMenuBar>
-#include <QtGui/QStatusBar>
-#include <QtGui/QToolBar>
+#include <QtGui/QPushButton>
 #include <QtGui/QWidget>
 #include <QtWebKit/QWebView>
 
@@ -39,20 +38,23 @@ public:
     QWidget *centralWidget;
     QGridLayout *gridLayout;
     QWebView *webView;
+    QGridLayout *gridLayout_2;
+    QPushButton *postponeButton;
     QLabel *timeLabel;
     QMenuBar *menuBar;
     QMenu *menu_File;
     QMenu *menuHelp;
     QMenu *menu_Tools;
     QMenu *menuNavigate;
-    QStatusBar *statusBar;
-    QToolBar *toolBar;
 
     void setupUi(QMainWindow *TrackerWindow)
     {
         if (TrackerWindow->objectName().isEmpty())
             TrackerWindow->setObjectName(QString::fromUtf8("TrackerWindow"));
         TrackerWindow->resize(800, 600);
+        QIcon icon;
+        icon.addFile(QString::fromUtf8(":/main/res/app.png"), QSize(), QIcon::Normal, QIcon::Off);
+        TrackerWindow->setWindowIcon(icon);
         actionE_xit = new QAction(TrackerWindow);
         actionE_xit->setObjectName(QString::fromUtf8("actionE_xit"));
         actionAbout = new QAction(TrackerWindow);
@@ -73,9 +75,31 @@ public:
         gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
         webView = new QWebView(centralWidget);
         webView->setObjectName(QString::fromUtf8("webView"));
+        QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(webView->sizePolicy().hasHeightForWidth());
+        webView->setSizePolicy(sizePolicy);
         webView->setUrl(QUrl("about:blank"));
 
         gridLayout->addWidget(webView, 0, 0, 1, 1);
+
+        gridLayout_2 = new QGridLayout();
+        gridLayout_2->setSpacing(6);
+        gridLayout_2->setObjectName(QString::fromUtf8("gridLayout_2"));
+        gridLayout_2->setContentsMargins(-1, -1, -1, 8);
+        postponeButton = new QPushButton(centralWidget);
+        postponeButton->setObjectName(QString::fromUtf8("postponeButton"));
+        QSizePolicy sizePolicy1(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(postponeButton->sizePolicy().hasHeightForWidth());
+        postponeButton->setSizePolicy(sizePolicy1);
+
+        gridLayout_2->addWidget(postponeButton, 0, 0, 1, 1);
+
+
+        gridLayout->addLayout(gridLayout_2, 2, 0, 4, 1);
 
         timeLabel = new QLabel(centralWidget);
         timeLabel->setObjectName(QString::fromUtf8("timeLabel"));
@@ -96,12 +120,6 @@ public:
         menuNavigate = new QMenu(menuBar);
         menuNavigate->setObjectName(QString::fromUtf8("menuNavigate"));
         TrackerWindow->setMenuBar(menuBar);
-        statusBar = new QStatusBar(TrackerWindow);
-        statusBar->setObjectName(QString::fromUtf8("statusBar"));
-        TrackerWindow->setStatusBar(statusBar);
-        toolBar = new QToolBar(TrackerWindow);
-        toolBar->setObjectName(QString::fromUtf8("toolBar"));
-        TrackerWindow->addToolBar(Qt::TopToolBarArea, toolBar);
 
         menuBar->addAction(menu_File->menuAction());
         menuBar->addAction(menuNavigate->menuAction());
@@ -124,25 +142,26 @@ public:
         QObject::connect(actionMyKSC_Home, SIGNAL(triggered()), TrackerWindow, SLOT(navigateHome()));
         QObject::connect(actionMyKSC_Inbox, SIGNAL(triggered()), TrackerWindow, SLOT(navigateInbox()));
         QObject::connect(TrackerWindow, SIGNAL(destroyed()), TrackerWindow, SLOT(exit()));
+        QObject::connect(postponeButton, SIGNAL(clicked(bool)), TrackerWindow, SLOT(postponeButtonClicked(bool)));
 
         QMetaObject::connectSlotsByName(TrackerWindow);
     } // setupUi
 
     void retranslateUi(QMainWindow *TrackerWindow)
     {
-        TrackerWindow->setWindowTitle(QApplication::translate("TrackerWindow", "MyKSC Email Tracker", 0, QApplication::UnicodeUTF8));
+        TrackerWindow->setWindowTitle(QApplication::translate("TrackerWindow", "KSC Email Tracker", 0, QApplication::UnicodeUTF8));
         actionE_xit->setText(QApplication::translate("TrackerWindow", "E&xit", 0, QApplication::UnicodeUTF8));
         actionAbout->setText(QApplication::translate("TrackerWindow", "About", 0, QApplication::UnicodeUTF8));
         actionCheck_for_Updates->setText(QApplication::translate("TrackerWindow", "Check for Updates", 0, QApplication::UnicodeUTF8));
         actionOptions->setText(QApplication::translate("TrackerWindow", "&Options...", 0, QApplication::UnicodeUTF8));
         actionMyKSC_Home->setText(QApplication::translate("TrackerWindow", "MyKSC Home", 0, QApplication::UnicodeUTF8));
         actionMyKSC_Inbox->setText(QApplication::translate("TrackerWindow", "MyKSC Inbox", 0, QApplication::UnicodeUTF8));
+        postponeButton->setText(QApplication::translate("TrackerWindow", "Postpone", 0, QApplication::UnicodeUTF8));
         timeLabel->setText(QApplication::translate("TrackerWindow", "TextLabel", 0, QApplication::UnicodeUTF8));
         menu_File->setTitle(QApplication::translate("TrackerWindow", "&File", 0, QApplication::UnicodeUTF8));
         menuHelp->setTitle(QApplication::translate("TrackerWindow", "&Help", 0, QApplication::UnicodeUTF8));
         menu_Tools->setTitle(QApplication::translate("TrackerWindow", "&Tools", 0, QApplication::UnicodeUTF8));
         menuNavigate->setTitle(QApplication::translate("TrackerWindow", "Navigate", 0, QApplication::UnicodeUTF8));
-        toolBar->setWindowTitle(QApplication::translate("TrackerWindow", "toolBar", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
 };

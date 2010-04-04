@@ -2,8 +2,10 @@
 #define TRACKERWINDOW_H
 
 #include "alertdialog.h"
+#include <trackersettings.h>
 #include <QDateTime>
 #include <QMainWindow>
+#include <QSystemTrayIcon>
 #include <QTimer>
 
 namespace Ui {
@@ -18,7 +20,9 @@ public:
 
 protected:
     void changeEvent(QEvent *e);
+    void closeEvent(QCloseEvent *event);
     void initialize();
+    void initializeTrayIcon();
 
 protected slots:
     void exit();
@@ -29,15 +33,20 @@ protected slots:
     void about();
     void browserReload();
     void browserLoaded(bool ok);
+    void postponeButtonClicked(bool ok);
+    void iconActivated(QSystemTrayIcon::ActivationReason reason);
 
 private:
-    Ui::TrackerWindow *ui;
+    Ui::TrackerWindow* ui;
     AlertDialog* alertDialog;
     QTimer* timer;
     QDateTime lastRefresh;
     int refreshInterval;
     QString kscPage;
+    QString initialMailPage;
     QString mailPage;
+    TrackerSettings* settings;
+    QSystemTrayIcon* trayIcon;
 };
 
 #endif // TRACKERWINDOW_H

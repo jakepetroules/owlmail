@@ -7,10 +7,18 @@ class TrackerSettings
 {
 public:
     TrackerSettings();
-    static void read();
-    static QString getUsername();
-    static QString getPassword();
-    static QList<int>* getSuppressedMessages();
+    void read();
+    void write();
+    QString getUsername();
+    void setUsername(QString username);
+    QString getPassword();
+    void setPassword(QString password);
+    QList<int>* getSuppressedMessages();
+
+private:
+    QString username;
+    QString password;
+    QList<int>* suppressedMessages;
 };
 
 #endif // TRACKERSETTINGS_H

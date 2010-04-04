@@ -11,7 +11,11 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MyKSC Email Tracker</string>
+   <string>KSC Email Tracker</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>:/main/res/app.png</normaloff>:/main/res/app.png</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
@@ -20,12 +24,38 @@
     </property>
     <item row="0" column="0">
      <widget class="QWebView" name="webView">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
       <property name="url">
        <url>
         <string>about:blank</string>
        </url>
       </property>
      </widget>
+    </item>
+    <item row="2" column="0" rowspan="4">
+     <layout class="QGridLayout" name="gridLayout_2">
+      <property name="bottomMargin">
+       <number>8</number>
+      </property>
+      <item row="0" column="0">
+       <widget class="QPushButton" name="postponeButton">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Postpone</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </item>
     <item row="1" column="0">
      <widget class="QLabel" name="timeLabel">
@@ -79,18 +109,6 @@
    <addaction name="menuNavigate"/>
    <addaction name="menu_Tools"/>
    <addaction name="menuHelp"/>
-  </widget>
-  <widget class="QStatusBar" name="statusBar"/>
-  <widget class="QToolBar" name="toolBar">
-   <property name="windowTitle">
-    <string>toolBar</string>
-   </property>
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
   </widget>
   <action name="actionE_xit">
    <property name="text">
@@ -261,6 +279,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>postponeButton</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>TrackerWindow</receiver>
+   <slot>postponeButtonClicked(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>399</x>
+     <y>580</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>299</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>about()</slot>
@@ -270,5 +304,6 @@
   <slot>browserLoaded(bool)</slot>
   <slot>navigateHome()</slot>
   <slot>navigateInbox()</slot>
+  <slot>postponeButtonClicked(bool)</slot>
  </slots>
 </ui>

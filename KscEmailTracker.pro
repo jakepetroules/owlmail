@@ -9,10 +9,17 @@ SOURCES += main.cpp \
     trackerwindow.cpp \
     trackersettings.cpp \
     mailmessageinfo.cpp \
-    alertdialog.cpp
+    alertdialog.cpp \
+    optionsdialog.cpp
 HEADERS += trackerwindow.h \
     trackersettings.h \
     mailmessageinfo.h \
-    alertdialog.h
+    alertdialog.h \
+    optionsdialog.h
 FORMS += trackerwindow.ui \
-    alertdialog.ui
+    alertdialog.ui \
+    optionsdialog.ui
+RESOURCES += resources.qrc
+OTHER_FILES += kscemailtracker.rc
+RC_FILE = kscemailtracker.rc
+ICON = res/app.icns
