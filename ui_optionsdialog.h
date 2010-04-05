@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'optionsdialog.ui'
 **
-** Created: Sun Apr 4 02:28:43 2010
+** Created: Mon Apr 5 02:16:43 2010
 **      by: Qt User Interface Compiler version 4.6.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -17,6 +17,7 @@
 #include <QtGui/QCheckBox>
 #include <QtGui/QDialog>
 #include <QtGui/QDialogButtonBox>
+#include <QtGui/QFormLayout>
 #include <QtGui/QHeaderView>
 #include <QtGui/QLabel>
 #include <QtGui/QLineEdit>
@@ -28,39 +29,55 @@ QT_BEGIN_NAMESPACE
 class Ui_OptionsDialog
 {
 public:
-    QDialogButtonBox *buttonBox;
+    QFormLayout *formLayout;
     QLabel *usernameLabel;
     QLineEdit *usernameTextBox;
-    QLineEdit *passwordTextBox;
     QLabel *passwordLabel;
-    QTableWidget *tableMessages;
-    QLabel *messagesLabel;
-    QPushButton *buttonRemoveSelected;
+    QLineEdit *passwordTextBox;
     QCheckBox *showPasswordCheckBox;
+    QLabel *messagesLabel;
+    QTableWidget *tableMessages;
+    QDialogButtonBox *buttonBox;
     QCheckBox *startWithWindowsCheckBox;
+    QPushButton *buttonRemoveSelected;
 
     void setupUi(QDialog *OptionsDialog)
     {
         if (OptionsDialog->objectName().isEmpty())
             OptionsDialog->setObjectName(QString::fromUtf8("OptionsDialog"));
         OptionsDialog->resize(500, 306);
-        buttonBox = new QDialogButtonBox(OptionsDialog);
-        buttonBox->setObjectName(QString::fromUtf8("buttonBox"));
-        buttonBox->setGeometry(QRect(10, 270, 481, 32));
-        buttonBox->setOrientation(Qt::Horizontal);
-        buttonBox->setStandardButtons(QDialogButtonBox::Cancel|QDialogButtonBox::Ok);
+        formLayout = new QFormLayout(OptionsDialog);
+        formLayout->setObjectName(QString::fromUtf8("formLayout"));
         usernameLabel = new QLabel(OptionsDialog);
         usernameLabel->setObjectName(QString::fromUtf8("usernameLabel"));
-        usernameLabel->setGeometry(QRect(10, 10, 51, 21));
+
+        formLayout->setWidget(0, QFormLayout::LabelRole, usernameLabel);
+
         usernameTextBox = new QLineEdit(OptionsDialog);
         usernameTextBox->setObjectName(QString::fromUtf8("usernameTextBox"));
-        usernameTextBox->setGeometry(QRect(70, 10, 113, 20));
-        passwordTextBox = new QLineEdit(OptionsDialog);
-        passwordTextBox->setObjectName(QString::fromUtf8("passwordTextBox"));
-        passwordTextBox->setGeometry(QRect(70, 40, 113, 20));
+
+        formLayout->setWidget(0, QFormLayout::FieldRole, usernameTextBox);
+
         passwordLabel = new QLabel(OptionsDialog);
         passwordLabel->setObjectName(QString::fromUtf8("passwordLabel"));
-        passwordLabel->setGeometry(QRect(10, 40, 51, 21));
+
+        formLayout->setWidget(2, QFormLayout::LabelRole, passwordLabel);
+
+        passwordTextBox = new QLineEdit(OptionsDialog);
+        passwordTextBox->setObjectName(QString::fromUtf8("passwordTextBox"));
+
+        formLayout->setWidget(2, QFormLayout::FieldRole, passwordTextBox);
+
+        showPasswordCheckBox = new QCheckBox(OptionsDialog);
+        showPasswordCheckBox->setObjectName(QString::fromUtf8("showPasswordCheckBox"));
+
+        formLayout->setWidget(3, QFormLayout::FieldRole, showPasswordCheckBox);
+
+        messagesLabel = new QLabel(OptionsDialog);
+        messagesLabel->setObjectName(QString::fromUtf8("messagesLabel"));
+
+        formLayout->setWidget(4, QFormLayout::SpanningRole, messagesLabel);
+
         tableMessages = new QTableWidget(OptionsDialog);
         if (tableMessages->columnCount() < 2)
             tableMessages->setColumnCount(2);
@@ -69,19 +86,26 @@ public:
         QTableWidgetItem *__qtablewidgetitem1 = new QTableWidgetItem();
         tableMessages->setHorizontalHeaderItem(1, __qtablewidgetitem1);
         tableMessages->setObjectName(QString::fromUtf8("tableMessages"));
-        tableMessages->setGeometry(QRect(180, 70, 311, 192));
-        messagesLabel = new QLabel(OptionsDialog);
-        messagesLabel->setObjectName(QString::fromUtf8("messagesLabel"));
-        messagesLabel->setGeometry(QRect(10, 70, 161, 21));
-        buttonRemoveSelected = new QPushButton(OptionsDialog);
-        buttonRemoveSelected->setObjectName(QString::fromUtf8("buttonRemoveSelected"));
-        buttonRemoveSelected->setGeometry(QRect(74, 100, 101, 23));
-        showPasswordCheckBox = new QCheckBox(OptionsDialog);
-        showPasswordCheckBox->setObjectName(QString::fromUtf8("showPasswordCheckBox"));
-        showPasswordCheckBox->setGeometry(QRect(190, 40, 101, 21));
+
+        formLayout->setWidget(5, QFormLayout::FieldRole, tableMessages);
+
+        buttonBox = new QDialogButtonBox(OptionsDialog);
+        buttonBox->setObjectName(QString::fromUtf8("buttonBox"));
+        buttonBox->setOrientation(Qt::Horizontal);
+        buttonBox->setStandardButtons(QDialogButtonBox::Cancel|QDialogButtonBox::Ok);
+
+        formLayout->setWidget(8, QFormLayout::SpanningRole, buttonBox);
+
         startWithWindowsCheckBox = new QCheckBox(OptionsDialog);
         startWithWindowsCheckBox->setObjectName(QString::fromUtf8("startWithWindowsCheckBox"));
-        startWithWindowsCheckBox->setGeometry(QRect(370, 10, 121, 21));
+
+        formLayout->setWidget(7, QFormLayout::LabelRole, startWithWindowsCheckBox);
+
+        buttonRemoveSelected = new QPushButton(OptionsDialog);
+        buttonRemoveSelected->setObjectName(QString::fromUtf8("buttonRemoveSelected"));
+
+        formLayout->setWidget(5, QFormLayout::LabelRole, buttonRemoveSelected);
+
 
         retranslateUi(OptionsDialog);
         QObject::connect(buttonBox, SIGNAL(accepted()), OptionsDialog, SLOT(accept()));
@@ -94,17 +118,17 @@ public:
 
     void retranslateUi(QDialog *OptionsDialog)
     {
-        OptionsDialog->setWindowTitle(QApplication::translate("OptionsDialog", "Dialog", 0, QApplication::UnicodeUTF8));
+        OptionsDialog->setWindowTitle(QApplication::translate("OptionsDialog", "Options", 0, QApplication::UnicodeUTF8));
         usernameLabel->setText(QApplication::translate("OptionsDialog", "Username:", 0, QApplication::UnicodeUTF8));
         passwordLabel->setText(QApplication::translate("OptionsDialog", "Password:", 0, QApplication::UnicodeUTF8));
+        showPasswordCheckBox->setText(QApplication::translate("OptionsDialog", "Show password", 0, QApplication::UnicodeUTF8));
+        messagesLabel->setText(QApplication::translate("OptionsDialog", "Messages NOT to show alerts on:", 0, QApplication::UnicodeUTF8));
         QTableWidgetItem *___qtablewidgetitem = tableMessages->horizontalHeaderItem(0);
         ___qtablewidgetitem->setText(QApplication::translate("OptionsDialog", "Message ID", 0, QApplication::UnicodeUTF8));
         QTableWidgetItem *___qtablewidgetitem1 = tableMessages->horizontalHeaderItem(1);
         ___qtablewidgetitem1->setText(QApplication::translate("OptionsDialog", "Message Subject", 0, QApplication::UnicodeUTF8));
-        messagesLabel->setText(QApplication::translate("OptionsDialog", "Messages NOT to show alerts on:", 0, QApplication::UnicodeUTF8));
-        buttonRemoveSelected->setText(QApplication::translate("OptionsDialog", "Remove selected", 0, QApplication::UnicodeUTF8));
-        showPasswordCheckBox->setText(QApplication::translate("OptionsDialog", "Show password", 0, QApplication::UnicodeUTF8));
         startWithWindowsCheckBox->setText(QApplication::translate("OptionsDialog", "Start with Windows", 0, QApplication::UnicodeUTF8));
+        buttonRemoveSelected->setText(QApplication::translate("OptionsDialog", "Remove selected", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
 };

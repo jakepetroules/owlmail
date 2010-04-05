@@ -9,7 +9,7 @@ OptionsDialog::OptionsDialog(TrackerSettings* settings, QWidget* parent) :
     ui(new Ui::OptionsDialog)
 {
     this->ui->setupUi(this);
-    this->togglePassword(QLineEdit::Password);
+    this->togglePassword(this->ui->showPasswordCheckBox->checkState());
 
     this->settings = settings;
     this->ui->usernameTextBox->setText(this->settings->getUsername());

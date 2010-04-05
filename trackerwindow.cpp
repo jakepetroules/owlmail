@@ -143,15 +143,21 @@ void TrackerWindow::navigateInbox()
     this->ui->webView->setUrl(TrackerWindow::mailPage);
 }
 
+/*!
+    Launches the options dialog.
+ */
 void TrackerWindow::options()
 {
     OptionsDialog* dialog = new OptionsDialog(this->settings, this);
     dialog->exec();
 }
 
+/*!
+    Launches the check for updates dialog.
+ */
 void TrackerWindow::checkForUpdates()
 {
-
+    QMessageBox::critical(this, this->windowTitle(), "This feature is not yet available.");
 }
 
 /*!
@@ -160,7 +166,7 @@ void TrackerWindow::checkForUpdates()
 void TrackerWindow::about()
 {
     QString aboutInformation = "<h1>KSC Email Tracker 2.0</h1>";
-    aboutInformation.append("<p>Copyright © 2009-2010 Petroules Enterprises</p>");
+    aboutInformation.append("<p>Copyright &copy; 2009-2010 Petroules Enterprises</p>");
     aboutInformation.append("<p>KSC Email Tracker is an application designed to allow Keene State College students to manage their email more effectively.</p>");
 
     QMessageBox::about(this, this->windowTitle(), aboutInformation);
