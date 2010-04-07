@@ -1,4 +1,5 @@
 #include "trackersettings.h"
+#include "mailmessageinfo.h"
 #include <QList>
 #include <QString>
 #include <QDesktopServices>
@@ -9,7 +10,7 @@
  */
 TrackerSettings::TrackerSettings()
 {
-    this->suppressedMessages = new QList<int>();
+    this->suppressedMessages = new QList<MailMessageInfo*>();
 }
 
 /*!
@@ -26,7 +27,12 @@ void TrackerSettings::read()
     for (int i = 0; i < size; i++)
     {
          settings.setArrayIndex(i);
-         this->getSuppressedMessages()->append(settings.value("id").toInt());
+         MailMessageInfo* info = new MailMessageInfo(
+            settings.value("id").toInt(),
+            settings.value("sender").toString(),
+            settings.value("subject").toString(),
+            settings.value("received").toDateTime());
+         this->getSuppressedMessages()->append(info);
     }
 
     settings.endArray();
@@ -46,7 +52,10 @@ void TrackerSettings::write()
     for (int i = 0; i < this->getSuppressedMessages()->size(); i++)
     {
         settings.setArrayIndex(i);
-        settings.setValue("id", this->getSuppressedMessages()->at(i));
+        settings.setValue("id", this->getSuppressedMessages()->at(i)->getId());
+        settings.setValue("sender", this->getSuppressedMessages()->at(i)->getSender());
+        settings.setValue("subject", this->getSuppressedMessages()->at(i)->getSubject());
+        settings.setValue("received", this->getSuppressedMessages()->at(i)->getReceived());
     }
 
     settings.endArray();
@@ -88,7 +97,38 @@ void TrackerSettings::setPassword(QString password)
 /*!
     Gets the list of message IDs NOT to show alerts about.
  */
-QList<int>* TrackerSettings::getSuppressedMessages()
+QList<MailMessageInfo*>* TrackerSettings::getSuppressedMessages()
 {
     return this->suppressedMessages;
+}
+
+/*!
+    Determines whether the settings contain a blocked message with the specified ID.
+ */
+bool TrackerSettings::containsMessageWithId(int id)
+{
+    for (int i = 0; i < this->getSuppressedMessages()->count(); i++)
+    {
+        if (this->getSuppressedMessages()->at(i)->getId() == id)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+/*!
+    Removes the message with the specified ID from the blocked message collection if it is contained within.
+ */
+void TrackerSettings::removeMessageWithId(int id)
+{
+    for (int i = 0; i < this->getSuppressedMessages()->count(); i++)
+    {
+        if (this->getSuppressedMessages()->at(i)->getId() == id)
+        {
+            this->getSuppressedMessages()->removeAt(i);
+            break;
+        }
+    }
 }

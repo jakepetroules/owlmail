@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'trackerwindow.ui'
 **
-** Created: Sat Apr 3 22:14:35 2010
+** Created: Wed Apr 7 01:03:09 2010
 **      by: Qt User Interface Compiler version 4.6.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!

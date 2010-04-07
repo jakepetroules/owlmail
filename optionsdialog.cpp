@@ -9,16 +9,20 @@ OptionsDialog::OptionsDialog(TrackerSettings* settings, QWidget* parent) :
     ui(new Ui::OptionsDialog)
 {
     this->ui->setupUi(this);
+    this->settings = settings;
+
+    this->idsRemoved = new QList<int>();
     this->togglePassword(this->ui->showPasswordCheckBox->checkState());
 
-    this->settings = settings;
     this->ui->usernameTextBox->setText(this->settings->getUsername());
     this->ui->passwordTextBox->setText(this->settings->getPassword());
     for (int i = 0; i < this->settings->getSuppressedMessages()->count(); i++)
     {
         this->ui->tableMessages->insertRow(i);
-        this->ui->tableMessages->setCellWidget(i, 0, new QLabel(QString::number(this->settings->getSuppressedMessages()->at(i))));
-        this->ui->tableMessages->setCellWidget(i, 1, new QLabel(""));
+        this->ui->tableMessages->setCellWidget(i, 0, new QLabel(QString::number(this->settings->getSuppressedMessages()->at(i)->getId())));
+        this->ui->tableMessages->setCellWidget(i, 1, new QLabel(this->settings->getSuppressedMessages()->at(i)->getSubject()));
+        this->ui->tableMessages->setCellWidget(i, 2, new QLabel(this->settings->getSuppressedMessages()->at(i)->getSender()));
+        this->ui->tableMessages->setCellWidget(i, 3, new QLabel(this->settings->getSuppressedMessages()->at(i)->getReceived().toString("MM/dd/yyyy hh:mm AP")));
     }
 
     #ifdef Q_OS_WIN32
@@ -28,13 +32,14 @@ OptionsDialog::OptionsDialog(TrackerSettings* settings, QWidget* parent) :
         this->ui->startWithWindowsCheckBox->setChecked(true);
     }
     #else
-    this->ui->startWithWindowsCheckBox->setEnabled(false);
+    this->ui->startWithWindowsCheckBox->setVisible(false);
     #endif
 }
 
 OptionsDialog::~OptionsDialog()
 {
     delete this->ui;
+    delete this->idsRemoved;
 }
 
 void OptionsDialog::changeEvent(QEvent* e)
@@ -77,12 +82,12 @@ void OptionsDialog::togglePassword(int state)
 
 void OptionsDialog::removeSelected()
 {
-    /*QModelIndexList indexes = this->ui->tableMessages->selectedIndexes();
-    while (indexes.count() > 0)
+    while (this->ui->tableMessages->selectedRanges().count() > 0)
     {
-        this->ui->tableMessages->removeRow(indexes.at(0));
-        indexes = this->ui->tableMessages->selectedIndexes();
-    }*/
+        int row = this->ui->tableMessages->selectedRanges().at(0).topRow();
+        this->idsRemoved->append(((QLabel*)this->ui->tableMessages->cellWidget(row, 0))->text().toInt());
+        this->ui->tableMessages->removeRow(row);
+    }
 }
 
 void OptionsDialog::accept()
@@ -91,15 +96,9 @@ void OptionsDialog::accept()
     this->settings->setUsername(this->ui->usernameTextBox->text());
     this->settings->setPassword(this->ui->passwordTextBox->text());
 
-    // Clear the currently suppressed messages
-    QList<int>* messages = this->settings->getSuppressedMessages();
-    messages->clear();
-
-    // Then add all the ones in the options dialog
-    for (int i = 0; i < this->ui->tableMessages->rowCount(); i++)
+    for (int i = 0; i < this->idsRemoved->count(); i++)
     {
-        QLabel* widget = (QLabel*)this->ui->tableMessages->cellWidget(i, 0);
-        messages->append(widget->text().toInt());
+        this->settings->removeMessageWithId(this->idsRemoved->at(i));
     }
 
     #ifdef Q_OS_WIN32

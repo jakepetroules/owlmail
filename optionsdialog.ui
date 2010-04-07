@@ -22,7 +22,14 @@
     </widget>
    </item>
    <item row="0" column="1">
-    <widget class="QLineEdit" name="usernameTextBox"/>
+    <widget class="QLineEdit" name="usernameTextBox">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+    </widget>
    </item>
    <item row="2" column="0">
     <widget class="QLabel" name="passwordLabel">
@@ -32,7 +39,14 @@
     </widget>
    </item>
    <item row="2" column="1">
-    <widget class="QLineEdit" name="passwordTextBox"/>
+    <widget class="QLineEdit" name="passwordTextBox">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+    </widget>
    </item>
    <item row="3" column="1">
     <widget class="QCheckBox" name="showPasswordCheckBox">
@@ -50,6 +64,18 @@
    </item>
    <item row="5" column="1">
     <widget class="QTableWidget" name="tableMessages">
+     <property name="editTriggers">
+      <set>QAbstractItemView::NoEditTriggers</set>
+     </property>
+     <property name="dragDropMode">
+      <enum>QAbstractItemView::NoDragDrop</enum>
+     </property>
+     <property name="selectionBehavior">
+      <enum>QAbstractItemView::SelectRows</enum>
+     </property>
+     <property name="sortingEnabled">
+      <bool>true</bool>
+     </property>
      <column>
       <property name="text">
        <string>Message ID</string>
@@ -57,7 +83,17 @@
      </column>
      <column>
       <property name="text">
-       <string>Message Subject</string>
+       <string>Subject</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Sender</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Date/Time Received</string>
       </property>
      </column>
     </widget>

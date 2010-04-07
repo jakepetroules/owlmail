@@ -10,12 +10,15 @@ SOURCES += main.cpp \
     trackersettings.cpp \
     mailmessageinfo.cpp \
     alertdialog.cpp \
-    optionsdialog.cpp
+    optionsdialog.cpp \
+    aboutdialog.cpp
 HEADERS += trackerwindow.h \
     trackersettings.h \
     mailmessageinfo.h \
     alertdialog.h \
-    optionsdialog.h
+    optionsdialog.h \
+    version.h \
+    aboutdialog.h
 FORMS += trackerwindow.ui \
     alertdialog.ui \
     optionsdialog.ui

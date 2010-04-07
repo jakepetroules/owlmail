@@ -2,8 +2,10 @@
 #define ALERTDIALOG_H
 
 #include "mailmessageinfo.h"
+#include "trackersettings.h"
 #include <QDialog>
 #include <QList>
+#include <QMainWindow>
 #include <QUrl>
 
 namespace Ui {
@@ -13,10 +15,9 @@ namespace Ui {
 class AlertDialog : public QDialog {
     Q_OBJECT
 public:
-    AlertDialog(QWidget *parent = 0);
+    AlertDialog(TrackerSettings* settings, QMainWindow* trackerWindow, QWidget* parent = 0);
     ~AlertDialog();
-    QList<MailMessageInfo>* suppressedMessages();
-    void show(QList<MailMessageInfo>* messages);
+    void show(QList<MailMessageInfo*>* messages);
     void show();
     void snapToCorner();
 
@@ -28,8 +29,11 @@ protected slots:
     void linkClicked(QUrl);
 
 private:
-    Ui::AlertDialog *ui;
-    void generateMarkup(QList<MailMessageInfo>* messages);
+    Ui::AlertDialog* ui;
+    TrackerSettings* settings;
+    QMainWindow* trackerWindow;
+    QList<MailMessageInfo*>* messages;
+    void generateMarkup();
 };
 
 #endif // ALERTDIALOG_H

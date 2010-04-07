@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'optionsdialog.ui'
 **
-** Created: Mon Apr 5 02:16:43 2010
+** Created: Wed Apr 7 00:35:48 2010
 **      by: Qt User Interface Compiler version 4.6.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -55,6 +55,11 @@ public:
 
         usernameTextBox = new QLineEdit(OptionsDialog);
         usernameTextBox->setObjectName(QString::fromUtf8("usernameTextBox"));
+        QSizePolicy sizePolicy(QSizePolicy::Maximum, QSizePolicy::Fixed);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(usernameTextBox->sizePolicy().hasHeightForWidth());
+        usernameTextBox->setSizePolicy(sizePolicy);
 
         formLayout->setWidget(0, QFormLayout::FieldRole, usernameTextBox);
 
@@ -65,6 +70,8 @@ public:
 
         passwordTextBox = new QLineEdit(OptionsDialog);
         passwordTextBox->setObjectName(QString::fromUtf8("passwordTextBox"));
+        sizePolicy.setHeightForWidth(passwordTextBox->sizePolicy().hasHeightForWidth());
+        passwordTextBox->setSizePolicy(sizePolicy);
 
         formLayout->setWidget(2, QFormLayout::FieldRole, passwordTextBox);
 
@@ -79,13 +86,21 @@ public:
         formLayout->setWidget(4, QFormLayout::SpanningRole, messagesLabel);
 
         tableMessages = new QTableWidget(OptionsDialog);
-        if (tableMessages->columnCount() < 2)
-            tableMessages->setColumnCount(2);
+        if (tableMessages->columnCount() < 4)
+            tableMessages->setColumnCount(4);
         QTableWidgetItem *__qtablewidgetitem = new QTableWidgetItem();
         tableMessages->setHorizontalHeaderItem(0, __qtablewidgetitem);
         QTableWidgetItem *__qtablewidgetitem1 = new QTableWidgetItem();
         tableMessages->setHorizontalHeaderItem(1, __qtablewidgetitem1);
+        QTableWidgetItem *__qtablewidgetitem2 = new QTableWidgetItem();
+        tableMessages->setHorizontalHeaderItem(2, __qtablewidgetitem2);
+        QTableWidgetItem *__qtablewidgetitem3 = new QTableWidgetItem();
+        tableMessages->setHorizontalHeaderItem(3, __qtablewidgetitem3);
         tableMessages->setObjectName(QString::fromUtf8("tableMessages"));
+        tableMessages->setEditTriggers(QAbstractItemView::NoEditTriggers);
+        tableMessages->setDragDropMode(QAbstractItemView::NoDragDrop);
+        tableMessages->setSelectionBehavior(QAbstractItemView::SelectRows);
+        tableMessages->setSortingEnabled(true);
 
         formLayout->setWidget(5, QFormLayout::FieldRole, tableMessages);
 
@@ -126,7 +141,11 @@ public:
         QTableWidgetItem *___qtablewidgetitem = tableMessages->horizontalHeaderItem(0);
         ___qtablewidgetitem->setText(QApplication::translate("OptionsDialog", "Message ID", 0, QApplication::UnicodeUTF8));
         QTableWidgetItem *___qtablewidgetitem1 = tableMessages->horizontalHeaderItem(1);
-        ___qtablewidgetitem1->setText(QApplication::translate("OptionsDialog", "Message Subject", 0, QApplication::UnicodeUTF8));
+        ___qtablewidgetitem1->setText(QApplication::translate("OptionsDialog", "Subject", 0, QApplication::UnicodeUTF8));
+        QTableWidgetItem *___qtablewidgetitem2 = tableMessages->horizontalHeaderItem(2);
+        ___qtablewidgetitem2->setText(QApplication::translate("OptionsDialog", "Sender", 0, QApplication::UnicodeUTF8));
+        QTableWidgetItem *___qtablewidgetitem3 = tableMessages->horizontalHeaderItem(3);
+        ___qtablewidgetitem3->setText(QApplication::translate("OptionsDialog", "Date/Time Received", 0, QApplication::UnicodeUTF8));
         startWithWindowsCheckBox->setText(QApplication::translate("OptionsDialog", "Start with Windows", 0, QApplication::UnicodeUTF8));
         buttonRemoveSelected->setText(QApplication::translate("OptionsDialog", "Remove selected", 0, QApplication::UnicodeUTF8));
     } // retranslateUi

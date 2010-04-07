@@ -25,8 +25,9 @@ protected slots:
     void reject();
 
 private:
-    Ui::OptionsDialog *ui;
+    Ui::OptionsDialog* ui;
     TrackerSettings* settings;
+    QList<int>* idsRemoved;
 };
 
 #endif // OPTIONSDIALOG_H

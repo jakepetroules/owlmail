@@ -1,11 +1,14 @@
 #include "trackerwindow.h"
 #include "ui_trackerwindow.h"
+#include "aboutdialog.h"
 #include "alertdialog.h"
 #include "mailmessageinfo.h"
 #include "optionsdialog.h"
 #include "trackersettings.h"
+#include "version.h"
 #include <QCloseEvent>
 #include <QDateTime>
+#include <QDesktopWidget>
 #include <QMessageBox>
 #include <QSystemTrayIcon>
 #include <QTimer>
@@ -26,15 +29,19 @@ TrackerWindow::TrackerWindow(QWidget* parent) :
     // Setup the user interface
     this->ui->setupUi(this);
 
+    // Read the settings from the file
+    this->settings = new TrackerSettings();
+    this->settings->read();
+
     // Initialize the tray icon
     this->initializeTrayIcon();
 
     // Initialize the program
     this->initialize();
 
-    // Read the settings from the file
-    this->settings = new TrackerSettings();
-    this->settings->read();
+    QRect rect = this->frameGeometry();
+    rect.moveCenter(QDesktopWidget().availableGeometry().center());
+    this->move(rect.topLeft());
 }
 
 TrackerWindow::~TrackerWindow()
@@ -88,6 +95,7 @@ void TrackerWindow::initializeTrayIcon()
     this->trayIcon = new QSystemTrayIcon(this);
     this->trayIcon->setIcon(this->windowIcon());
     this->trayIcon->setToolTip(this->windowTitle());
+    this->trayIcon->setContextMenu(this->ui->menu_File);
     this->trayIcon->show();
 
     // Connect our icon activated event so we can re-show the window when the user double clicks the icon
@@ -97,7 +105,7 @@ void TrackerWindow::initializeTrayIcon()
 void TrackerWindow::initialize()
 {
     // Create the alert dialog
-    this->alertDialog = new AlertDialog();
+    this->alertDialog = new AlertDialog(this->settings, this);
 
     // Initialize some variables - refresh interval is the time in seconds between each refresh
     this->refreshInterval = 60;
@@ -122,6 +130,8 @@ void TrackerWindow::initialize()
  */
 void TrackerWindow::exit()
 {
+    this->settings->write();
+
     QApplication::closeAllWindows();
     QApplication::exit();
     QApplication::quit();
@@ -165,11 +175,9 @@ void TrackerWindow::checkForUpdates()
  */
 void TrackerWindow::about()
 {
-    QString aboutInformation = "<h1>KSC Email Tracker 2.0</h1>";
-    aboutInformation.append("<p>Copyright &copy; 2009-2010 Petroules Enterprises</p>");
-    aboutInformation.append("<p>KSC Email Tracker is an application designed to allow Keene State College students to manage their email more effectively.</p>");
-
-    QMessageBox::about(this, this->windowTitle(), aboutInformation);
+    QString str = "<p>KSC Email Tracker is an application designed to allow Keene State College students to manage their email more effectively.</p>";
+    str.append("<p>The owl icon used in this program is a public domain image. Details can be found <a href=\"http://www.openclipart.org/detail/17566\">here</a>.</p>");
+    AboutDialog::show(this, this->windowTitle(), str);
 }
 
 /*!
@@ -257,7 +265,7 @@ void TrackerWindow::browserLoaded(bool ok)
     }
     else
     {
-        QList<MailMessageInfo>* unreadMessages = new QList<MailMessageInfo>();
+        QList<MailMessageInfo*>* unreadMessages = new QList<MailMessageInfo*>();
 
         QWebElement messageTable = this->ui->webView->page()->mainFrame()->documentElement().findFirst("#mailList");
         QWebElementCollection messageTableRows = messageTable.findAll("tr");
@@ -271,10 +279,10 @@ void TrackerWindow::browserLoaded(bool ok)
             QDateTime mailDateTime = QDateTime::fromString(cells.at(4).toPlainText(), "MM/dd/yyyy hh:mm AP");
 
             // We only want unread messages and ones that aren't stopped from alerting about
-            if (cells.at(1).firstChild().attribute("alt") == "Unread" && !this->settings->getSuppressedMessages()->contains(mailId))
+            if (cells.at(1).firstChild().attribute("alt") == "Unread" && !this->settings->containsMessageWithId(mailId))
             {
                 MailMessageInfo* info = new MailMessageInfo(mailId, mailSender, mailSubject, mailDateTime);
-                unreadMessages->append(*info);
+                unreadMessages->append(info);
             }
         }
 
