@@ -25,6 +25,7 @@ protected:
     void initializeTrayIcon();
 
 protected slots:
+    void beforeExit();
     void exit();
     void navigateHome();
     void navigateInbox();

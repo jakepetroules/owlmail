@@ -42,6 +42,8 @@ TrackerWindow::TrackerWindow(QWidget* parent) :
     QRect rect = this->frameGeometry();
     rect.moveCenter(QDesktopWidget().availableGeometry().center());
     this->move(rect.topLeft());
+
+    QObject::connect(QCoreApplication::instance(), SIGNAL(aboutToQuit()), this, SLOT(beforeExit()));
 }
 
 TrackerWindow::~TrackerWindow()
@@ -126,12 +128,18 @@ void TrackerWindow::initialize()
 }
 
 /*!
+    Performs operations before the program exits.
+ */
+void TrackerWindow::beforeExit()
+{
+    this->settings->write();
+}
+
+/*!
     Exits the application.
  */
 void TrackerWindow::exit()
 {
-    this->settings->write();
-
     QApplication::closeAllWindows();
     QApplication::exit();
     QApplication::quit();

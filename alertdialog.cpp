@@ -18,11 +18,12 @@ AlertDialog::AlertDialog(TrackerSettings* settings, QMainWindow* trackerWindow, 
     // Send all link clicks to our handler
     this->ui->webView->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
 
-    this->setWindowFlags(windowFlags() | Qt::Tool | Qt::WindowStaysOnTopHint
-        #ifdef Q_OS_MAC
-        | Qt::WA_MacAlwaysShowToolWindow
-        #endif
-    );
+    this->setWindowFlags(windowFlags() | Qt::Tool | Qt::WindowStaysOnTopHint);
+    this->setWindowFlags((windowFlags() | Qt::CustomizeWindowHint) & ~Qt::WindowMinMaxButtonsHint);
+
+    #ifdef Q_OS_MAC
+    this->setAttribute(Qt::WA_MacAlwaysShowToolWindow, true);
+    #endif
 }
 
 AlertDialog::~AlertDialog()
@@ -64,8 +65,7 @@ void AlertDialog::generateMarkup()
     QString builder;
     builder.append("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\" \"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">");
     builder.append("<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en-US\" dir=\"ltr\">");
-    builder.append("<head><title>New Messages</title></head><body style='background-color: #fff; color: #000; font: 16px Times, serif; margin: 0; padding: 0.25em;'>");
-    builder.append("<div style='margin-left: 2.5em;'>");
+    builder.append("<head><title>New Messages</title></head><body style='background-color: #fff; color: #000; font: 16px Times, serif; margin: 0; padding: 0.75em;'>");
     builder.append(QString("<div style='font-weight: bold; text-align: center;'><a href='#showMainForm'>You have %1 new messages!</a></div><hr /><p></p>").arg(messages->count()));
 
     for (int i = 0; i < this->messages->count(); i++)
@@ -78,7 +78,7 @@ void AlertDialog::generateMarkup()
                        .arg(message->getReceived().toString("dddd, MMMM d, yyyy 'at' hh:mm AP")));
     }
 
-    builder.append("</div></body></html>");
+    builder.append("</body></html>");
 
     this->ui->webView->setHtml(builder);
 }
@@ -104,6 +104,7 @@ void AlertDialog::loadFinished(bool ok)
     }
 
     this->resize(newSize);
+    this->setFixedSize(this->width(), this->height());
     this->snapToCorner();
 }
 
