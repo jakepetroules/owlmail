@@ -22,12 +22,25 @@ TrackerWindow::TrackerWindow(QWidget* parent) :
     ui(new Ui::TrackerWindow)
 {
     // Set information about the application
-    QCoreApplication::setOrganizationName("Petroules Enterprises");
-    QCoreApplication::setOrganizationDomain("petroules.com");
-    QCoreApplication::setApplicationName("KSC Email Tracker");
+    QCoreApplication::setOrganizationName(VER_COMPANYNAME_STR);
+    QCoreApplication::setOrganizationDomain(VER_COMPANYDOMAIN_STR);
+    QCoreApplication::setApplicationName(VER_PRODUCTNAME_STR);
+    QCoreApplication::setApplicationVersion(VER_PRODUCTVERSION_STR);
 
     // Setup the user interface
     this->ui->setupUi(this);
+
+    #ifdef Q_WS_X11
+    // Actions
+    this->ui->actionE_xit->setIcon(QIcon::fromTheme("application-exit"));
+    this->ui->actionOptions->setIcon(QIcon::fromTheme("preferences-other"));
+    this->ui->actionAbout->setIcon(QIcon::fromTheme("help-about"));
+    #endif
+
+    // Keyboard Shortcuts
+    this->ui->actionE_xit->setShortcut(QKeySequence::Quit);
+    this->ui->actionMyKSC_Inbox->setShortcut(QKeySequence::Back);
+    this->ui->actionOptions->setShortcut(QKeySequence::Preferences);
 
     // Read the settings from the file
     this->settings = new TrackerSettings();

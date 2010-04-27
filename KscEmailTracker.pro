@@ -3,7 +3,8 @@
 # -------------------------------------------------
 QT += network \
     webkit
-TARGET = KscEmailTracker
+!macx:TARGET = KscEmailTracker
+macx:TARGET = "KSC Email Tracker"
 TEMPLATE = app
 SOURCES += main.cpp \
     trackerwindow.cpp \
@@ -23,6 +24,13 @@ FORMS += trackerwindow.ui \
     alertdialog.ui \
     optionsdialog.ui
 RESOURCES += resources.qrc
+
+# General information
+VERSION = 2.0.1
+
+# Resource file for Windows
 OTHER_FILES += kscemailtracker.rc
 RC_FILE = kscemailtracker.rc
+
+# Icon for Mac OS X application bundle
 ICON = res/app.icns
