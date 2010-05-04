@@ -25,9 +25,10 @@ protected slots:
     void reject();
 
 private:
+    QString getApplicationFilePath() const;
     Ui::OptionsDialog* ui;
-    TrackerSettings* settings;
-    QList<int>* idsRemoved;
+    TrackerSettings* m_settings;
+    QList<int>* m_idsRemoved;
 };
 
 #endif // OPTIONSDIALOG_H

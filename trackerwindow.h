@@ -5,6 +5,8 @@
 #include <trackersettings.h>
 #include <QDateTime>
 #include <QMainWindow>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
 #include <QSystemTrayIcon>
 #include <QTimer>
 
@@ -36,18 +38,17 @@ protected slots:
     void browserLoaded(bool ok);
     void postponeButtonClicked(bool ok);
     void iconActivated(QSystemTrayIcon::ActivationReason reason);
+    void replyFinished(QNetworkReply* reply);
 
 private:
     Ui::TrackerWindow* ui;
-    AlertDialog* alertDialog;
-    QTimer* timer;
-    QDateTime lastRefresh;
-    int refreshInterval;
-    QString kscPage;
-    QString initialMailPage;
-    QString mailPage;
-    TrackerSettings* settings;
-    QSystemTrayIcon* trayIcon;
+    TrackerSettings* m_settings;
+    QSystemTrayIcon* m_trayIcon;
+    AlertDialog* m_alertDialog;
+    QTimer* m_timer;
+    QNetworkAccessManager* m_manager;
+    QDateTime m_lastRefresh;
+    int m_refreshInterval;
 };
 
 #endif // TRACKERWINDOW_H

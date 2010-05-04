@@ -2,6 +2,14 @@
 #include "version.h"
 #include <QMessageBox>
 
+/*!
+    \class AboutDialog
+    Contains several convenience methods used to display a nicely formatted about dialog.
+ */
+
+/*!
+    Displays a nicely formatted about dialog with the specified parent window, title and description.
+ */
 void AboutDialog::show(QWidget* parent, const QString& title, const QString& description)
 {
     QString aboutInformation = QString("<h1>%1 %2</h1><small>Version %3 &bull; Qt %4 &bull; %5%6 %7-bit %8</small><p>%9, %10</p>")
@@ -25,6 +33,9 @@ void AboutDialog::show(QWidget* parent, const QString& title, const QString& des
     QMessageBox::about(parent, title, aboutInformation);
 }
 
+/*!
+    Gets a string representing the current operating system.
+ */
 QString AboutDialog::osString()
 {
     #ifdef Q_OS_WIN32
@@ -47,13 +58,13 @@ QString AboutDialog::osString()
     switch (QSysInfo::MacintoshVersion)
     {
         case QSysInfo::MV_SNOWLEOPARD:
-            return "Mac OSX 10.6 Snow Leopard";
+            return "Mac OS X 10.6 Snow Leopard";
         case QSysInfo::MV_LEOPARD:
-            return "Mac OSX 10.5 Leopard";
+            return "Mac OS X 10.5 Leopard";
         case QSysInfo::MV_TIGER:
-            return "Mac OSX 10.4 Tiger";
+            return "Mac OS X 10.4 Tiger";
         case QSysInfo::MV_PANTHER:
-            return "Mac OSX 10.3 Panther";
+            return "Mac OS X 10.3 Panther";
         default:
             return "Mac OS";
     }
@@ -92,6 +103,9 @@ QString AboutDialog::osString()
     #endif
 }
 
+/*!
+    Gets a string representing the byte order (endianness) of the system.
+ */
 QString AboutDialog::byteOrder()
 {
     switch (QSysInfo::ByteOrder)

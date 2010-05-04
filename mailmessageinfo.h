@@ -13,10 +13,10 @@ public:
     QDateTime getReceived();
 
 private:
-    int id;
-    QString sender;
-    QString subject;
-    QDateTime received;
+    int m_id;
+    QString m_sender;
+    QString m_subject;
+    QDateTime m_received;
 };
 
 #endif // MAILMESSAGEINFO_H

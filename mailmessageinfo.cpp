@@ -1,6 +1,6 @@
 #include "mailmessageinfo.h"
-#include <QString>
 #include <QDateTime>
+#include <QString>
 
 /*!
     \class MailMessageInfo
@@ -11,11 +11,8 @@
     Initializes a new instance of the MailMessageInfo class.
  */
 MailMessageInfo::MailMessageInfo(int id, QString sender, QString subject, QDateTime received)
+    : m_id(id), m_sender(sender), m_subject(subject), m_received(received)
 {
-    this->id = id;
-    this->sender = sender;
-    this->subject = subject;
-    this->received = received;
 }
 
 /*!
@@ -23,7 +20,7 @@ MailMessageInfo::MailMessageInfo(int id, QString sender, QString subject, QDateT
  */
 int MailMessageInfo::getId()
 {
-    return this->id;
+    return this->m_id;
 }
 
 /*!
@@ -31,7 +28,7 @@ int MailMessageInfo::getId()
  */
 QString MailMessageInfo::getSender()
 {
-    return this->sender;
+    return this->m_sender;
 }
 
 /*!
@@ -39,7 +36,7 @@ QString MailMessageInfo::getSender()
  */
 QString MailMessageInfo::getSubject()
 {
-    return this->subject;
+    return this->m_subject;
 }
 
 /*!
@@ -47,5 +44,5 @@ QString MailMessageInfo::getSubject()
  */
 QDateTime MailMessageInfo::getReceived()
 {
-    return this->received;
+    return this->m_received;
 }

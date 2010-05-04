@@ -30,10 +30,11 @@ protected slots:
 
 private:
     Ui::AlertDialog* ui;
-    TrackerSettings* settings;
-    QMainWindow* trackerWindow;
-    QList<MailMessageInfo*>* messages;
+    TrackerSettings* m_settings;
+    QMainWindow* m_trackerWindow;
+    QList<MailMessageInfo*>* m_messages;
     void generateMarkup();
+    void freeMessages();
 };
 
 #endif // ALERTDIALOG_H

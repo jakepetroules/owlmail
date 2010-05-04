@@ -14,8 +14,8 @@
    <string>KSC Email Tracker</string>
   </property>
   <property name="windowIcon">
-   <iconset>
-    <normaloff>:/main/res/app.png</normaloff>:/main/res/app.png</iconset>
+   <iconset resource="resources.qrc">
+    <normaloff>:/main/res/app.svg</normaloff>:/main/res/app.svg</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
@@ -149,7 +149,9 @@
    <header>QtWebKit/QWebView</header>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>actionE_xit</sender>

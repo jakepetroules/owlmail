@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'trackerwindow.ui'
 **
-** Created: Mon Apr 26 16:57:00 2010
+** Created: Mon May 3 21:29:18 2010
 **      by: Qt User Interface Compiler version 4.6.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -53,7 +53,7 @@ public:
             TrackerWindow->setObjectName(QString::fromUtf8("TrackerWindow"));
         TrackerWindow->resize(800, 600);
         QIcon icon;
-        icon.addFile(QString::fromUtf8(":/main/res/app.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon.addFile(QString::fromUtf8(":/main/res/app.svg"), QSize(), QIcon::Normal, QIcon::Off);
         TrackerWindow->setWindowIcon(icon);
         actionE_xit = new QAction(TrackerWindow);
         actionE_xit->setObjectName(QString::fromUtf8("actionE_xit"));

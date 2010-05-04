@@ -6,11 +6,31 @@
 #include <QSettings>
 
 /*!
-    Initializes a new instance of the TrackerSettings class.
+    \class TrackerSettings
+    Represents the KSC Email Tracker application settings.
+ */
+
+/*!
+    Constructs a settings instance.
  */
 TrackerSettings::TrackerSettings()
+    : m_username(""), m_password(""), m_suppressedMessages(new QList<MailMessageInfo*>())
 {
-    this->suppressedMessages = new QList<MailMessageInfo*>();
+}
+
+/*!
+    Destroys the TrackerSettings.
+ */
+TrackerSettings::~TrackerSettings()
+{
+    for (int i = 0; i < this->m_suppressedMessages->count(); i++)
+    {
+        delete this->m_suppressedMessages->at(i);
+    }
+
+    this->m_suppressedMessages->clear();
+    delete this->m_suppressedMessages;
+    this->m_suppressedMessages = NULL;
 }
 
 /*!
@@ -67,7 +87,7 @@ void TrackerSettings::write()
  */
 QString TrackerSettings::getUsername()
 {
-    return this->username;
+    return this->m_username;
 }
 
 /*!
@@ -75,7 +95,7 @@ QString TrackerSettings::getUsername()
  */
 void TrackerSettings::setUsername(QString username)
 {
-    this->username = username;
+    this->m_username = username;
 }
 
 /*!
@@ -83,7 +103,7 @@ void TrackerSettings::setUsername(QString username)
  */
 QString TrackerSettings::getPassword()
 {
-    return this->password;
+    return this->m_password;
 }
 
 /*!
@@ -91,7 +111,7 @@ QString TrackerSettings::getPassword()
  */
 void TrackerSettings::setPassword(QString password)
 {
-    this->password = password;
+    this->m_password = password;
 }
 
 /*!
@@ -99,7 +119,7 @@ void TrackerSettings::setPassword(QString password)
  */
 QList<MailMessageInfo*>* TrackerSettings::getSuppressedMessages()
 {
-    return this->suppressedMessages;
+    return this->m_suppressedMessages;
 }
 
 /*!

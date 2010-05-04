@@ -8,6 +8,8 @@
 #include "version.h"
 #include <QCloseEvent>
 #include <QDateTime>
+#include <QDebug>
+#include <QDesktopServices>
 #include <QDesktopWidget>
 #include <QMessageBox>
 #include <QSystemTrayIcon>
@@ -17,9 +19,23 @@
 #include <QWebElement>
 #include <QWebElementCollection>
 
+#define KSC_PAGE "http://prod.campuscruiser.com/myksc/"
+#define INITIAL_MAIL_PAGE "http://prod.campuscruiser.com/emPageServlet?pg=papp&a=email&cx=u&cp=160"
+#define MAIL_PAGE "http://prod.campuscruiser.com/emPageServlet?cx=u&pg=papp&tg=Email-checkmail&cmd=checkmail"
+
+/*!
+    \class TrackerWindow
+    Represents the main window of the KSC Email Tracker application.
+ */
+
+/*!
+    Constructs an email tracker window.
+ */
 TrackerWindow::TrackerWindow(QWidget* parent) :
     QMainWindow(parent),
-    ui(new Ui::TrackerWindow)
+    ui(new Ui::TrackerWindow),
+    m_settings(new TrackerSettings()), m_trayIcon(new QSystemTrayIcon(this)), m_alertDialog(new AlertDialog(this->m_settings, this)),
+    m_timer(new QTimer()), m_manager(new QNetworkAccessManager(this))
 {
     // Set information about the application
     QCoreApplication::setOrganizationName(VER_COMPANYNAME_STR);
@@ -43,8 +59,7 @@ TrackerWindow::TrackerWindow(QWidget* parent) :
     this->ui->actionOptions->setShortcut(QKeySequence::Preferences);
 
     // Read the settings from the file
-    this->settings = new TrackerSettings();
-    this->settings->read();
+    this->m_settings->read();
 
     // Initialize the tray icon
     this->initializeTrayIcon();
@@ -52,20 +67,27 @@ TrackerWindow::TrackerWindow(QWidget* parent) :
     // Initialize the program
     this->initialize();
 
+    // Move the application window to the center of the screen
     QRect rect = this->frameGeometry();
     rect.moveCenter(QDesktopWidget().availableGeometry().center());
     this->move(rect.topLeft());
 
+    // Connect slots and signals
     QObject::connect(QCoreApplication::instance(), SIGNAL(aboutToQuit()), this, SLOT(beforeExit()));
+    QObject::connect(this->m_manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(replyFinished(QNetworkReply*)));
 }
 
+/*!
+    Destroys the TrackerWindow.
+ */
 TrackerWindow::~TrackerWindow()
 {
-    delete this->alertDialog;
+    delete this->m_alertDialog;
     delete this->ui;
-    delete this->timer;
-    delete this->settings;
-    delete this->trayIcon;
+    delete this->m_timer;
+    delete this->m_settings;
+    delete this->m_trayIcon;
+    delete this->m_manager;
 }
 
 void TrackerWindow::changeEvent(QEvent* e)
@@ -81,17 +103,23 @@ void TrackerWindow::changeEvent(QEvent* e)
     }
 }
 
+/*!
+    Stops the application from closing when the close button is clicked, allowing it to continue running in the background.
+ */
 void TrackerWindow::closeEvent(QCloseEvent* event)
 {
-    if (this->trayIcon->isVisible())
+    if (this->m_trayIcon->isVisible())
     {
         event->ignore();
         this->hide();
 
-        this->trayIcon->showMessage("MyKSC Email Tracker", "MyKSC Email Tracker is still running. To fully exit the program right click this icon and select exit.", QSystemTrayIcon::Information);
+        this->m_trayIcon->showMessage("MyKSC Email Tracker", "MyKSC Email Tracker is still running. To fully exit the program right click this icon and select exit.", QSystemTrayIcon::Information);
     }
 }
 
+/*!
+    Shows the main window when the tray icon is triggered (clicked) or double clicked.
+ */
 void TrackerWindow::iconActivated(QSystemTrayIcon::ActivationReason reason)
 {
     switch (reason)
@@ -105,39 +133,37 @@ void TrackerWindow::iconActivated(QSystemTrayIcon::ActivationReason reason)
     }
 }
 
+/*!
+    Initializes the system tray icon.
+ */
 void TrackerWindow::initializeTrayIcon()
 {
-    this->trayIcon = new QSystemTrayIcon(this);
-    this->trayIcon->setIcon(this->windowIcon());
-    this->trayIcon->setToolTip(this->windowTitle());
-    this->trayIcon->setContextMenu(this->ui->menu_File);
-    this->trayIcon->show();
+    this->m_trayIcon->setIcon(this->windowIcon());
+    this->m_trayIcon->setToolTip(this->windowTitle());
+    this->m_trayIcon->setContextMenu(this->ui->menu_File);
+    this->m_trayIcon->show();
 
     // Connect our icon activated event so we can re-show the window when the user double clicks the icon
-    QObject::connect(this->trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(iconActivated(QSystemTrayIcon::ActivationReason)));
+    QObject::connect(this->m_trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(iconActivated(QSystemTrayIcon::ActivationReason)));
 }
 
+/*!
+    Initializes the application.
+ */
 void TrackerWindow::initialize()
 {
-    // Create the alert dialog
-    this->alertDialog = new AlertDialog(this->settings, this);
-
     // Initialize some variables - refresh interval is the time in seconds between each refresh
-    this->refreshInterval = 60;
-    this->lastRefresh = QDateTime::currentDateTime().toUTC();
-    TrackerWindow::kscPage = "http://prod.campuscruiser.com/myksc/";
-    TrackerWindow::initialMailPage = "http://prod.campuscruiser.com/emPageServlet?pg=papp&a=email&cx=u&cp=160";
-    TrackerWindow::mailPage = "http://prod.campuscruiser.com/emPageServlet?cx=u&pg=papp&tg=Email-checkmail&cmd=checkmail";
+    this->m_refreshInterval = 60;
+    this->m_lastRefresh = QDateTime::currentDateTime().toUTC();
 
     // load 'er up, Scotty! This loads the browser for the first time so the user doesn't wait 60 seconds initially
-    this->ui->webView->setUrl(TrackerWindow::initialMailPage);
+    this->ui->webView->setUrl(QString(INITIAL_MAIL_PAGE));
     this->browserReload();
 
     // Initialize the reload timer, connect the browserReload handler,
     // and start the timer with a 1000 ms (1 second) interval
-    this->timer = new QTimer();
-    QObject::connect(this->timer, SIGNAL(timeout()), this, SLOT(browserReload()));
-    this->timer->start(1000);
+    QObject::connect(this->m_timer, SIGNAL(timeout()), this, SLOT(browserReload()));
+    this->m_timer->start(1000);
 }
 
 /*!
@@ -145,7 +171,7 @@ void TrackerWindow::initialize()
  */
 void TrackerWindow::beforeExit()
 {
-    this->settings->write();
+    this->m_settings->write();
 }
 
 /*!
@@ -163,7 +189,7 @@ void TrackerWindow::exit()
  */
 void TrackerWindow::navigateHome()
 {
-    this->ui->webView->setUrl(TrackerWindow::kscPage);
+    this->ui->webView->setUrl(QString(KSC_PAGE));
 }
 
 /*!
@@ -171,7 +197,7 @@ void TrackerWindow::navigateHome()
  */
 void TrackerWindow::navigateInbox()
 {
-    this->ui->webView->setUrl(TrackerWindow::mailPage);
+    this->ui->webView->setUrl(QString(MAIL_PAGE));
 }
 
 /*!
@@ -179,8 +205,9 @@ void TrackerWindow::navigateInbox()
  */
 void TrackerWindow::options()
 {
-    OptionsDialog* dialog = new OptionsDialog(this->settings, this);
+    OptionsDialog* dialog = new OptionsDialog(this->m_settings, this);
     dialog->exec();
+    delete dialog;
 }
 
 /*!
@@ -188,7 +215,15 @@ void TrackerWindow::options()
  */
 void TrackerWindow::checkForUpdates()
 {
-    QMessageBox::critical(this, this->windowTitle(), "This feature is not yet available.");
+    if (QMessageBox::information(this, this->windowTitle(),
+        QString("You are running %1 version %2. Would you like to open the project's page in your web browser to see if a newer version is available?")
+        .arg(QApplication::applicationName())
+        .arg(QApplication::applicationVersion()),
+        QMessageBox::Yes,
+        QMessageBox::No) == QMessageBox::Yes)
+    {
+        QDesktopServices::openUrl(QUrl("http://www.petroules.com/products/kscemailtracker/"));
+    }
 }
 
 /*!
@@ -206,23 +241,23 @@ void TrackerWindow::about()
  */
 void TrackerWindow::browserReload()
 {
-    int timeToRefresh = QDateTime::currentDateTime().toUTC().secsTo(this->lastRefresh.addSecs(this->refreshInterval));
+    int timeToRefresh = QDateTime::currentDateTime().toUTC().secsTo(this->m_lastRefresh.addSecs(this->m_refreshInterval));
 
     // Prevent system clock changes from stopping the program operating normally
-    if (timeToRefresh > this->refreshInterval)
+    if (timeToRefresh > this->m_refreshInterval)
     {
-        this->lastRefresh = QDateTime::currentDateTime().toUTC();
+        this->m_lastRefresh = QDateTime::currentDateTime().toUTC();
         return;
     }
 
     // If we're past the last refresh time plus the refresh interval, refresh again
-    if (QDateTime::currentDateTime().toUTC() >= this->lastRefresh.addSecs(this->refreshInterval))
+    if (QDateTime::currentDateTime().toUTC() >= this->m_lastRefresh.addSecs(this->m_refreshInterval))
     {
         // Navigate to the current URL (this works better than refreshing)
-        this->ui->webView->setUrl(TrackerWindow::mailPage);
+        this->ui->webView->setUrl(QString(MAIL_PAGE));
 
         // ...and update the last refresh time
-        this->lastRefresh = QDateTime::currentDateTime().toUTC();
+        this->m_lastRefresh = QDateTime::currentDateTime().toUTC();
     }
 
     // Update the "time to refresh" label
@@ -241,7 +276,7 @@ void TrackerWindow::browserReload()
         this->ui->timeLabel->setText("<span style='color: red;'>" + this->ui->timeLabel->text() + "</span>");
     }
 
-    this->ui->postponeButton->setEnabled(timeToRefresh < (this->refreshInterval / 2));
+    this->ui->postponeButton->setEnabled(timeToRefresh < (this->m_refreshInterval / 2));
 }
 
 /*!
@@ -252,7 +287,7 @@ void TrackerWindow::browserLoaded(bool ok)
     QString documentHtml = this->ui->webView->page()->mainFrame()->toHtml();
     if (documentHtml.contains("Invalid context.") && documentHtml.contains("No E-mail Found."))
     {
-        this->ui->webView->setUrl(TrackerWindow::mailPage);
+        this->ui->webView->setUrl(QString(MAIL_PAGE));
         return;
     }
 
@@ -260,12 +295,12 @@ void TrackerWindow::browserLoaded(bool ok)
     if (documentHtml.contains("Log In</H1>") || documentHtml.contains("icon_signin_secure.gif"))
     {
         // Read username and password from settings file and inject values into webpage
-        this->ui->webView->page()->mainFrame()->findFirstElement("#userName").setAttribute("value", this->settings->getUsername());
-        this->ui->webView->page()->mainFrame()->findFirstElement("#password").setAttribute("value", this->settings->getPassword());
+        this->ui->webView->page()->mainFrame()->findFirstElement("#userName").setAttribute("value", this->m_settings->getUsername());
+        this->ui->webView->page()->mainFrame()->findFirstElement("#password").setAttribute("value", this->m_settings->getPassword());
 
         // We only want to submit if the username and password are BOTH not blank
         // That way a user can store their username only and manually enter their password (which is more secure)
-        if (this->settings->getUsername() != "" && this->settings->getPassword() != "")
+        if (this->m_settings->getUsername() != "" && this->m_settings->getPassword() != "")
         {
             // If the page does NOT contain the "invalid password/credentials" string, submit the form -
             // we don't want to submit the wrong password over and over and get the user's account locked
@@ -300,7 +335,7 @@ void TrackerWindow::browserLoaded(bool ok)
             QDateTime mailDateTime = QDateTime::fromString(cells.at(4).toPlainText(), "MM/dd/yyyy hh:mm AP");
 
             // We only want unread messages and ones that aren't stopped from alerting about
-            if (cells.at(1).firstChild().attribute("alt") == "Unread" && !this->settings->containsMessageWithId(mailId))
+            if (cells.at(1).firstChild().attribute("alt") == "Unread" && !this->m_settings->containsMessageWithId(mailId))
             {
                 MailMessageInfo* info = new MailMessageInfo(mailId, mailSender, mailSubject, mailDateTime);
                 unreadMessages->append(info);
@@ -309,9 +344,19 @@ void TrackerWindow::browserLoaded(bool ok)
 
         if (unreadMessages->count() > 0)
         {
-            this->alertDialog->show(unreadMessages);
+            this->m_alertDialog->show(unreadMessages);
         }
     }
+
+    QNetworkRequest* request = new QNetworkRequest(QUrl("http://www.petroules.com/robots.txt"));
+    request->setRawHeader("User-Agent", "Mozilla/5.0 (X11; U; Linux i386; en-US; rv:1.9.2.3) Gecko/20100401 Firefox/3.6.3");
+    this->m_manager->get(*request);
+    delete request;
+}
+
+void TrackerWindow::replyFinished(QNetworkReply* reply)
+{
+    qDebug() << QString(reply->readAll());
 }
 
 /*!
@@ -319,6 +364,6 @@ void TrackerWindow::browserLoaded(bool ok)
  */
 void TrackerWindow::postponeButtonClicked(bool ok)
 {
-    this->lastRefresh = this->lastRefresh.addSecs(this->refreshInterval);
+    this->m_lastRefresh = this->m_lastRefresh.addSecs(this->m_refreshInterval);
     this->ui->postponeButton->setEnabled(false);
 }

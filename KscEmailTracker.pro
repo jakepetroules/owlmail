@@ -3,8 +3,7 @@
 # -------------------------------------------------
 QT += network \
     webkit
-!macx:TARGET = KscEmailTracker
-macx:TARGET = "KSC Email Tracker"
+TARGET = kscemailtracker
 TEMPLATE = app
 SOURCES += main.cpp \
     trackerwindow.cpp \

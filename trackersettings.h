@@ -8,6 +8,7 @@ class TrackerSettings
 {
 public:
     TrackerSettings();
+    ~TrackerSettings();
     void read();
     void write();
     QString getUsername();
@@ -19,9 +20,9 @@ public:
     void removeMessageWithId(int id);
 
 private:
-    QString username;
-    QString password;
-    QList<MailMessageInfo*>* suppressedMessages;
+    QString m_username;
+    QString m_password;
+    QList<MailMessageInfo*>* m_suppressedMessages;
 };
 
 #endif // TRACKERSETTINGS_H
