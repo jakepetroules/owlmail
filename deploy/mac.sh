@@ -22,15 +22,15 @@ if [ -z $APPNAME ] ; then
 	FRIENDLYNAME=$userinput
 fi
 
-BUNDLE=$APPNAME.app
-APPBIN=$BUNDLE/Contents/MacOS/$APPNAME
+BUNDLE="$APPNAME.app"
+APPBIN="$BUNDLE/Contents/MacOS/$APPNAME"
 
-if [ ! -d ../$BUNDLE ] ; then
+if [ ! -d "../$BUNDLE" ] ; then
     echo "ERROR: cannot find application bundle \"$BUNDLE\" in current directory"
     exit
 fi
 
-if [ ! -x ../$APPBIN ] ; then
+if [ ! -x "../$APPBIN" ] ; then
     echo "ERROR: cannot find application in bundle. Did you forget to run make?"
     exit
 fi
@@ -39,22 +39,23 @@ echo "application:   $APPNAME"
 echo "bundle:        $BUNDLE"
 echo "friendly name: $FRIENDLYNAME"
 
-cp "../$BUNDLE" "./$BUNDLE"
-"/usr/bin/macdeployqt-4.6" $BUNDLE
+mkdir mac
+cp -R "../$BUNDLE" "./mac/$BUNDLE"
+"/usr/bin/macdeployqt-4.6" "mac/$BUNDLE"
 
 ### create disk image ###############################################
 
 echo "Creating disk image"
 imagedir="/tmp/$APPNAME.$$"
-mkdir $imagedir
-cp -R $BUNDLE $imagedir
+mkdir "$imagedir"
+cp -R "mac/$BUNDLE" "$imagedir"
 # TODO: copy over additional files, if any
 
 # Rename file to friendly name
-mv $imagedir/$BUNDLE "$imagedir/$FRIENDLYNAME.app"
+mv "$imagedir/$BUNDLE" "$imagedir/$FRIENDLYNAME.app"
 
-hdiutil create -ov -srcfolder $imagedir -format UDBZ -volname "$FRIENDLYNAME" "$APPNAME.dmg"
-hdiutil internet-enable -yes "$APPNAME.dmg"
-rm -rf $imagedir
+hdiutil create -ov -srcfolder "$imagedir" -format UDBZ -volname "$FRIENDLYNAME" "mac/$APPNAME.dmg"
+hdiutil internet-enable -yes "mac/$APPNAME.dmg"
+rm -rf "$imagedir"
 
 echo "Done"
