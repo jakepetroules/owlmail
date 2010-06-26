@@ -25,7 +25,7 @@ FORMS += trackerwindow.ui \
 RESOURCES += resources.qrc
 
 # General information
-VERSION = 2.0.1
+VERSION = 2.0.2
 
 # Resource file for Windows
 OTHER_FILES += kscemailtracker.rc
