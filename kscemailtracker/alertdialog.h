@@ -1,21 +1,23 @@
 #ifndef ALERTDIALOG_H
 #define ALERTDIALOG_H
 
-#include "mailmessageinfo.h"
-#include "trackersettings.h"
-#include <QDialog>
-#include <QList>
-#include <QMainWindow>
-#include <QUrl>
+#include <QtGui>
+#include <QtWebKit>
 
-namespace Ui {
+class MailMessageInfo;
+class TrackerPreferences;
+
+namespace Ui
+{
     class AlertDialog;
 }
 
-class AlertDialog : public QDialog {
+class AlertDialog : public QDialog
+{
     Q_OBJECT
+
 public:
-    AlertDialog(TrackerSettings* settings, QMainWindow* trackerWindow, QWidget* parent = 0);
+    AlertDialog(TrackerPreferences* settings, QMainWindow* trackerWindow, QWidget* parent = NULL);
     ~AlertDialog();
     void show(QList<MailMessageInfo*>* messages);
     void show();
@@ -30,7 +32,7 @@ protected slots:
 
 private:
     Ui::AlertDialog* ui;
-    TrackerSettings* m_settings;
+    TrackerPreferences* m_settings;
     QMainWindow* m_trackerWindow;
     QList<MailMessageInfo*>* m_messages;
     void generateMarkup();

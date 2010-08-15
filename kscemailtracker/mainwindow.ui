@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>TrackerWindow</class>
- <widget class="QMainWindow" name="TrackerWindow">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -78,66 +78,104 @@
      <height>21</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menu_File">
+   <widget class="QMenu" name="menuFile">
     <property name="title">
      <string>&amp;File</string>
     </property>
-    <addaction name="actionE_xit"/>
+    <addaction name="actionExit"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
      <string>&amp;Help</string>
     </property>
+    <addaction name="actionHelp"/>
+    <addaction name="separator"/>
+    <addaction name="actionWebsite"/>
+    <addaction name="actionDonate"/>
+    <addaction name="separator"/>
+    <addaction name="actionCheckForUpdates"/>
+    <addaction name="separator"/>
     <addaction name="actionAbout"/>
    </widget>
-   <widget class="QMenu" name="menu_Tools">
+   <widget class="QMenu" name="menuTools">
     <property name="title">
      <string>&amp;Tools</string>
     </property>
     <addaction name="actionOptions"/>
-    <addaction name="separator"/>
-    <addaction name="actionCheck_for_Updates"/>
    </widget>
    <widget class="QMenu" name="menuNavigate">
     <property name="title">
      <string>Navigate</string>
     </property>
-    <addaction name="actionMyKSC_Home"/>
-    <addaction name="actionMyKSC_Inbox"/>
+    <addaction name="actionMyKSCHome"/>
+    <addaction name="actionMyKSCInbox"/>
    </widget>
-   <addaction name="menu_File"/>
+   <addaction name="menuFile"/>
    <addaction name="menuNavigate"/>
-   <addaction name="menu_Tools"/>
+   <addaction name="menuTools"/>
    <addaction name="menuHelp"/>
   </widget>
-  <action name="actionE_xit">
+  <action name="actionExit">
    <property name="text">
     <string>E&amp;xit</string>
    </property>
   </action>
   <action name="actionAbout">
    <property name="text">
-    <string>About</string>
+    <string>About KSC Email Tracker</string>
+   </property>
+   <property name="statusTip">
+    <string>Show the application's about box</string>
    </property>
   </action>
-  <action name="actionCheck_for_Updates">
+  <action name="actionCheckForUpdates">
    <property name="text">
     <string>Check for Updates</string>
+   </property>
+   <property name="statusTip">
+    <string>Check for a newer version of the application</string>
    </property>
   </action>
   <action name="actionOptions">
    <property name="text">
-    <string>&amp;Options...</string>
+    <string>Preferences...</string>
+   </property>
+   <property name="statusTip">
+    <string>Configure application settings and preferences</string>
    </property>
   </action>
-  <action name="actionMyKSC_Home">
+  <action name="actionMyKSCHome">
    <property name="text">
     <string>MyKSC Home</string>
    </property>
   </action>
-  <action name="actionMyKSC_Inbox">
+  <action name="actionMyKSCInbox">
    <property name="text">
     <string>MyKSC Inbox</string>
+   </property>
+  </action>
+  <action name="actionWebsite">
+   <property name="text">
+    <string>Website</string>
+   </property>
+   <property name="statusTip">
+    <string>Visit the KSC Email Tracker website</string>
+   </property>
+  </action>
+  <action name="actionDonate">
+   <property name="text">
+    <string>Donate</string>
+   </property>
+   <property name="statusTip">
+    <string>Submit a donation to Petroules Enterprises</string>
+   </property>
+  </action>
+  <action name="actionHelp">
+   <property name="text">
+    <string>Help Contents</string>
+   </property>
+   <property name="statusTip">
+    <string>Display the application's help menu</string>
    </property>
   </action>
  </widget>
@@ -154,9 +192,9 @@
  </resources>
  <connections>
   <connection>
-   <sender>actionE_xit</sender>
+   <sender>actionExit</sender>
    <signal>triggered()</signal>
-   <receiver>TrackerWindow</receiver>
+   <receiver>MainWindow</receiver>
    <slot>exit()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -172,7 +210,7 @@
   <connection>
    <sender>actionOptions</sender>
    <signal>triggered()</signal>
-   <receiver>TrackerWindow</receiver>
+   <receiver>MainWindow</receiver>
    <slot>options()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -186,9 +224,9 @@
    </hints>
   </connection>
   <connection>
-   <sender>actionCheck_for_Updates</sender>
+   <sender>actionCheckForUpdates</sender>
    <signal>triggered()</signal>
-   <receiver>TrackerWindow</receiver>
+   <receiver>MainWindow</receiver>
    <slot>checkForUpdates()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -204,7 +242,7 @@
   <connection>
    <sender>actionAbout</sender>
    <signal>triggered()</signal>
-   <receiver>TrackerWindow</receiver>
+   <receiver>MainWindow</receiver>
    <slot>about()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -220,7 +258,7 @@
   <connection>
    <sender>webView</sender>
    <signal>loadFinished(bool)</signal>
-   <receiver>TrackerWindow</receiver>
+   <receiver>MainWindow</receiver>
    <slot>browserLoaded(bool)</slot>
    <hints>
     <hint type="sourcelabel">
@@ -234,9 +272,9 @@
    </hints>
   </connection>
   <connection>
-   <sender>actionMyKSC_Home</sender>
+   <sender>actionMyKSCHome</sender>
    <signal>triggered()</signal>
-   <receiver>TrackerWindow</receiver>
+   <receiver>MainWindow</receiver>
    <slot>navigateHome()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -250,9 +288,9 @@
    </hints>
   </connection>
   <connection>
-   <sender>actionMyKSC_Inbox</sender>
+   <sender>actionMyKSCInbox</sender>
    <signal>triggered()</signal>
-   <receiver>TrackerWindow</receiver>
+   <receiver>MainWindow</receiver>
    <slot>navigateInbox()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -266,9 +304,9 @@
    </hints>
   </connection>
   <connection>
-   <sender>TrackerWindow</sender>
+   <sender>MainWindow</sender>
    <signal>destroyed()</signal>
-   <receiver>TrackerWindow</receiver>
+   <receiver>MainWindow</receiver>
    <slot>exit()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -284,12 +322,60 @@
   <connection>
    <sender>postponeButton</sender>
    <signal>clicked(bool)</signal>
-   <receiver>TrackerWindow</receiver>
+   <receiver>MainWindow</receiver>
    <slot>postponeButtonClicked(bool)</slot>
    <hints>
     <hint type="sourcelabel">
      <x>399</x>
      <y>580</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>299</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionHelp</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>help()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>299</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionWebsite</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>website()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>299</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionDonate</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>donate()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
     </hint>
     <hint type="destinationlabel">
      <x>399</x>
@@ -307,5 +393,8 @@
   <slot>navigateHome()</slot>
   <slot>navigateInbox()</slot>
   <slot>postponeButtonClicked(bool)</slot>
+  <slot>help()</slot>
+  <slot>website()</slot>
+  <slot>donate()</slot>
  </slots>
 </ui>

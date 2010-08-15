@@ -1,16 +1,16 @@
 #ifndef MAILMESSAGEINFO_H
 #define MAILMESSAGEINFO_H
 
-#include <QDateTime>
+#include <QtCore>
 
 class MailMessageInfo
 {
 public:
     MailMessageInfo(int, QString, QString, QDateTime);
-    int getId();
-    QString getSender();
-    QString getSubject();
-    QDateTime getReceived();
+    int id();
+    QString sender();
+    QString subject();
+    QDateTime received();
 
 private:
     int m_id;

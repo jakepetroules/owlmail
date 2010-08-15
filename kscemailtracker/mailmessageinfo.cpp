@@ -1,10 +1,9 @@
 #include "mailmessageinfo.h"
-#include <QDateTime>
-#include <QString>
 
 /*!
     \class MailMessageInfo
-    Encapsulates MyKSC email message details.
+
+    This class encapsulates MyKSC email message details.
  */
 
 /*!
@@ -16,33 +15,33 @@ MailMessageInfo::MailMessageInfo(int id, QString sender, QString subject, QDateT
 }
 
 /*!
-   Gets the ID number of the message.
+    Gets the ID number of the message.
  */
-int MailMessageInfo::getId()
+int MailMessageInfo::id()
 {
     return this->m_id;
 }
 
 /*!
-   Gets the sender of the message.
+    Gets the sender of the message.
  */
-QString MailMessageInfo::getSender()
+QString MailMessageInfo::sender()
 {
     return this->m_sender;
 }
 
 /*!
-   Gets the subject of the message.
+    Gets the subject of the message.
  */
-QString MailMessageInfo::getSubject()
+QString MailMessageInfo::subject()
 {
     return this->m_subject;
 }
 
 /*!
-   Gets the date and time on which the message was received.
+    Gets the date and time on which the message was received.
  */
-QDateTime MailMessageInfo::getReceived()
+QDateTime MailMessageInfo::received()
 {
     return this->m_received;
 }

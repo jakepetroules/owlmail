@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>OptionsDialog</class>
- <widget class="QDialog" name="OptionsDialog">
+ <class>PreferencesDialog</class>
+ <widget class="QDialog" name="PreferencesDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>500</width>
-    <height>306</height>
+    <width>650</width>
+    <height>375</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Options</string>
   </property>
   <layout class="QFormLayout" name="formLayout">
+   <property name="fieldGrowthPolicy">
+    <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+   </property>
    <item row="0" column="0">
     <widget class="QLabel" name="usernameLabel">
      <property name="text">
@@ -62,6 +65,13 @@
      </property>
     </widget>
    </item>
+   <item row="5" column="0">
+    <widget class="QPushButton" name="buttonRemoveSelected">
+     <property name="text">
+      <string>Remove selected</string>
+     </property>
+    </widget>
+   </item>
    <item row="5" column="1">
     <widget class="QTableWidget" name="tableMessages">
      <property name="editTriggers">
@@ -93,9 +103,16 @@
      </column>
      <column>
       <property name="text">
-       <string>Date/Time Received</string>
+       <string>Received</string>
       </property>
      </column>
+    </widget>
+   </item>
+   <item row="7" column="0">
+    <widget class="QCheckBox" name="startWithWindowsCheckBox">
+     <property name="text">
+      <string>Start with Windows</string>
+     </property>
     </widget>
    </item>
    <item row="8" column="0" colspan="2">
@@ -108,20 +125,6 @@
      </property>
     </widget>
    </item>
-   <item row="7" column="0">
-    <widget class="QCheckBox" name="startWithWindowsCheckBox">
-     <property name="text">
-      <string>Start with Windows</string>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="0">
-    <widget class="QPushButton" name="buttonRemoveSelected">
-     <property name="text">
-      <string>Remove selected</string>
-     </property>
-    </widget>
-   </item>
   </layout>
  </widget>
  <resources/>
@@ -129,7 +132,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>OptionsDialog</receiver>
+   <receiver>PreferencesDialog</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -145,7 +148,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>OptionsDialog</receiver>
+   <receiver>PreferencesDialog</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -161,7 +164,7 @@
   <connection>
    <sender>buttonRemoveSelected</sender>
    <signal>clicked()</signal>
-   <receiver>OptionsDialog</receiver>
+   <receiver>PreferencesDialog</receiver>
    <slot>removeSelected()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -177,7 +180,7 @@
   <connection>
    <sender>showPasswordCheckBox</sender>
    <signal>stateChanged(int)</signal>
-   <receiver>OptionsDialog</receiver>
+   <receiver>PreferencesDialog</receiver>
    <slot>togglePassword(int)</slot>
    <hints>
     <hint type="sourcelabel">

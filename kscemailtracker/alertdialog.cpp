@@ -1,11 +1,7 @@
 #include "alertdialog.h"
 #include "ui_alertdialog.h"
 #include "mailmessageinfo.h"
-#include <QDebug>
-#include <QDesktopWidget>
-#include <QMessageBox>
-#include <QWebElement>
-#include <QWebFrame>
+#include "trackerpreferences.h"
 
 /*!
     \class AlertDialog
@@ -15,7 +11,7 @@
 /*!
     Constructs a new alert dialog.
  */
-AlertDialog::AlertDialog(TrackerSettings* settings, QMainWindow* trackerWindow, QWidget* parent) :
+AlertDialog::AlertDialog(TrackerPreferences* settings, QMainWindow* trackerWindow, QWidget* parent) :
     QDialog(parent),
     ui(new Ui::AlertDialog),
     m_settings(settings), m_trackerWindow(trackerWindow), m_messages(NULL)
@@ -28,10 +24,10 @@ AlertDialog::AlertDialog(TrackerSettings* settings, QMainWindow* trackerWindow, 
     this->setWindowFlags(windowFlags() | Qt::Tool | Qt::WindowStaysOnTopHint);
     this->setWindowFlags((windowFlags() | Qt::CustomizeWindowHint) & ~Qt::WindowMinMaxButtonsHint);
 
-    #ifdef Q_OS_MAC
+#ifdef Q_OS_MAC
     // Make sure our alert dialog shows on the Mac even if the application window is not visible
     this->setAttribute(Qt::WA_MacAlwaysShowToolWindow, true);
-    #endif
+#endif
 }
 
 /*!
@@ -64,9 +60,9 @@ void AlertDialog::show(QList<MailMessageInfo*>* messages)
     // Delete and nullify the previous list of messages
     this->freeMessages();
 
-    QDialog::show();
     this->m_messages = messages;
     this->generateMarkup();
+    QDialog::show();
 }
 
 /*!
@@ -94,10 +90,10 @@ void AlertDialog::generateMarkup()
     {
         MailMessageInfo* message = this->m_messages->at(i);
         builder.append(QString("<div><div style='border-bottom: 1px solid #f00; font-weight: bold;'><span id='messageSubject_%2'>%1</span> - <a href='#blockMessage_%2' style='font-weight: normal;'>Do not alert me about this message</a></div><div style='margin-left: 1em;'><strong>from:</strong> %3<br /><strong>sent at:</strong> %4</div><p></p></div>")
-                       .arg(message->getSubject())
-                       .arg(message->getId())
-                       .arg(message->getSender())
-                       .arg(message->getReceived().toString("dddd, MMMM d, yyyy 'at' hh:mm AP")));
+                       .arg(message->subject())
+                       .arg(message->id())
+                       .arg(message->sender())
+                       .arg(message->received().toString("dddd, MMMM d, yyyy 'at' hh:mm AP")));
     }
 
     builder.append("</body></html>");
@@ -171,7 +167,7 @@ void AlertDialog::linkClicked(QUrl url)
         int index = -1;
         for (int i = 0; i < this->m_messages->count(); i++)
         {
-            if (this->m_messages->at(i)->getId() == messageId)
+            if (this->m_messages->at(i)->id() == messageId)
             {
                 index = i;
             }

@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>LicenseDialog</class>
+ <widget class="QDialog" name="LicenseDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>640</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>License Information</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_2">
+   <item>
+    <widget class="QLabel" name="infoLabel">
+     <property name="text">
+      <string>&lt;p align=&quot;center&quot;&gt;KSC Email Tracker is made possible by &lt;a href=&quot;http://www.petroules.com/&quot;&gt;Petroules Enterprises&lt;/a&gt;, &lt;a href=&quot;http://qt.nokia.com/&quot;&gt;Qt&lt;/a&gt; and other open source software.&lt;br /&gt;
+Herein are the licenses for KSC Email Tracker and each of the projects it is linked with.&lt;/p&gt;</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::RichText</enum>
+     </property>
+     <property name="openExternalLinks">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QToolBox" name="toolBox">
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="kscemailtrackerPage">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>622</width>
+        <height>413</height>
+       </rect>
+      </property>
+      <attribute name="label">
+       <string>KSC Email Tracker</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QLabel" name="kscemailtrackerLabel">
+         <property name="text">
+          <string>Copyright &amp;copy; 2010 Petroules Enterprises, All Rights Reserved&lt;br /&gt;
+Contact: Petroules Enterprises (&lt;a href=&quot;mailto:support@petroules.com&quot;&gt;support@petroules.com&lt;/a&gt;)&lt;br /&gt;
+&lt;a href=&quot;http://www.petroules.com/products/kscemailtracker/&quot;&gt;http://www.petroules.com/products/kscemailtracker/&lt;/a&gt;</string>
+         </property>
+         <property name="textFormat">
+          <enum>Qt::RichText</enum>
+         </property>
+         <property name="openExternalLinks">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QTextBrowser" name="kscemailtrackerLicense">
+         <property name="openExternalLinks">
+          <bool>true</bool>
+         </property>
+         <property name="openLinks">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="lielPage">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>310</width>
+        <height>134</height>
+       </rect>
+      </property>
+      <attribute name="label">
+       <string>LIEL - Language Independent Extension Library</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_6">
+       <item>
+        <widget class="QLabel" name="lielLabel">
+         <property name="text">
+          <string>Copyright &amp;copy; 2010 Petroules Enterprises, All Rights Reserved&lt;br /&gt;
+Contact: Petroules Enterprises (&lt;a href=&quot;mailto:support@petroules.com&quot;&gt;support@petroules.com&lt;/a&gt;)&lt;br /&gt;
+&lt;a href=&quot;http://www.petroules.com/products/liel/&quot;&gt;http://www.petroules.com/products/liel/&lt;/a&gt;</string>
+         </property>
+         <property name="textFormat">
+          <enum>Qt::RichText</enum>
+         </property>
+         <property name="openExternalLinks">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QTextBrowser" name="lielLicense">
+         <property name="openExternalLinks">
+          <bool>true</bool>
+         </property>
+         <property name="openLinks">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="qtPage">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>319</width>
+        <height>274</height>
+       </rect>
+      </property>
+      <attribute name="label">
+       <string>Qt</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <widget class="QLabel" name="qtLabel">
+         <property name="text">
+          <string>Copyright &amp;copy; 2010 Nokia Corporation and/or its subsidiary(-ies)&lt;br /&gt;
+Contact: Nokia Corporation (&lt;a href=&quot;mailto:qt-info@nokia.com&quot;&gt;qt-info@nokia.com&lt;/a&gt;)&lt;br /&gt;
+&lt;a href=&quot;http://qt.nokia.com/&quot;&gt;http://qt.nokia.com/&lt;/a&gt;</string>
+         </property>
+         <property name="textFormat">
+          <enum>Qt::RichText</enum>
+         </property>
+         <property name="openExternalLinks">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QTextBrowser" name="qtLicense">
+         <property name="openExternalLinks">
+          <bool>true</bool>
+         </property>
+         <property name="openLinks">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="qtAdditionalLabel">
+         <property name="text">
+          <string>TextLabel</string>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="qsaPage">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>465</width>
+        <height>380</height>
+       </rect>
+      </property>
+      <attribute name="label">
+       <string>Qt Single Application</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_4">
+       <item>
+        <widget class="QLabel" name="qsaLabel">
+         <property name="text">
+          <string>Copyright &amp;copy; 2010 Nokia Corporation and/or its subsidiary(-ies)&lt;br /&gt;
+Contact: Nokia Corporation (&lt;a href=&quot;mailto:qt-info@nokia.com&quot;&gt;qt-info@nokia.com&lt;/a&gt;)&lt;br /&gt;
+&lt;a href=&quot;http://qt.nokia.com/products/appdev/add-on-products/catalog/4/Utilities/qtsingleapplication/&quot;&gt;http://qt.nokia.com/products/appdev/add-on-products/catalog/4/Utilities/qtsingleapplication/&lt;/a&gt;</string>
+         </property>
+         <property name="textFormat">
+          <enum>Qt::RichText</enum>
+         </property>
+         <property name="openExternalLinks">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QTextBrowser" name="qsaLicense">
+         <property name="openExternalLinks">
+          <bool>true</bool>
+         </property>
+         <property name="openLinks">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="qsaAdditionalLabel">
+         <property name="text">
+          <string>TextLabel</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="Line" name="line">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="qsaAdditionalPetroulesLabel">
+         <property name="text">
+          <string>The distribution of QtSingleApplication used has two small modifications from Nokia's original version 2.6, to support opening files on Mac OS X using the Finder, and a shorter library name to avoid a conflict when using macdeployqt. See our QtSingleApplication source package for details.
+
+See above to view the LGPL 2.1 license under which Nokia's version of QtSingleApplication, and our derivative, are licensed.</string>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+   <item>
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Ok</set>
+     </property>
+     <property name="centerButtons">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <tabstops>
+  <tabstop>kscemailtrackerLicense</tabstop>
+  <tabstop>qtLicense</tabstop>
+  <tabstop>qsaLicense</tabstop>
+  <tabstop>buttonBox</tabstop>
+ </tabstops>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>LicenseDialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>248</x>
+     <y>254</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>LicenseDialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>316</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

@@ -1,21 +1,19 @@
 #ifndef VERSION_H
 #define VERSION_H
 
-#define VER_FILEVERSION             2,0,2,0
-#define VER_FILEVERSION_STR         "2.0.2.0\0"
+#include "../../common/petroules/qt/petroules-version.h"
 
-#define VER_PRODUCTVERSION          2,0,2,0
-#define VER_PRODUCTVERSION_STR      "2.0.2\0"
+#define VER_FILEVERSION             2,0,3,0
+#define VER_PRODUCTVERSION          2,0,3,0
+#define VER_FILEVERSION_STR         "2.0.3.0"
+#define VER_PRODUCTVERSION_STR      "2.0.3"
+#define VER_ORIGINALFILENAME_STR    "kscemailtracker.exe"
 
-#define VER_COMPANYNAME_STR         "Petroules Enterprises"
-#define VER_FILEDESCRIPTION_STR     "KSC Email Tracker"
-#define VER_INTERNALNAME_STR        "KSC Email Tracker"
-#define VER_LEGALCOPYRIGHT_STR      "Copyright © 2009-2010 Petroules Enterprises"
-#define VER_LEGALTRADEMARKS1_STR    "All Rights Reserved"
-#define VER_LEGALTRADEMARKS2_STR    VER_LEGALTRADEMARKS1_STR
-#define VER_ORIGINALFILENAME_STR    "KscEmailTracker.exe"
-#define VER_PRODUCTNAME_STR         "KSC Email Tracker"
-
-#define VER_COMPANYDOMAIN_STR       "petroules.com"
+#define APP_DISPLAYNAME             "KSC Email Tracker"
+#define APP_UNIXNAME                "kscemailtracker"
+#define APP_BUNDLEID                "com.petroules.kscemailtracker"
+#define VER_FILEDESCRIPTION_STR     APP_DISPLAYNAME
+#define VER_INTERNALNAME_STR        APP_DISPLAYNAME
+#define VER_PRODUCTNAME_STR         APP_DISPLAYNAME
 
 #endif // VERSION_H

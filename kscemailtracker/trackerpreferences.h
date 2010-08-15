@@ -1,14 +1,15 @@
-#ifndef TRACKERSETTINGS_H
-#define TRACKERSETTINGS_H
+#ifndef TRACKERPREFERENCES_H
+#define TRACKERPREFERENCES_H
 
-#include "mailmessageinfo.h"
-#include <QString>
+#include <QtCore>
 
-class TrackerSettings
+class MailMessageInfo;
+
+class TrackerPreferences
 {
 public:
-    TrackerSettings();
-    ~TrackerSettings();
+    TrackerPreferences();
+    ~TrackerPreferences();
     void read();
     void write();
     QString getUsername();
@@ -25,4 +26,4 @@ private:
     QList<MailMessageInfo*>* m_suppressedMessages;
 };
 
-#endif // TRACKERSETTINGS_H
+#endif // TRACKERPREFERENCES_H
