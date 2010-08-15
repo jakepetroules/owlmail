@@ -25,9 +25,9 @@ ln -s "/Applications" "$DMGDIR"
 
 # Create disk image
 # The window must be 46 pixels taller than the background image
-"$PWD/../../../3rdparty/create-dmg/create-dmg" \
+"$PWD/../../../common/3rdparty/create-dmg/create-dmg" \
     --volname "$FRIENDLYNAME" \
-    --background "$PWD/../../../petroules/qt/macx/dmg-background.png" \
+    --background "$PWD/../../../common/petroules/qt/macx/dmg-background.png" \
     --window-size 600 396 \
     --icon-size 128 \
 	--icon "$BUNDLE" 160 100 \
