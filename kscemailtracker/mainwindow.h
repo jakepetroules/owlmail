@@ -48,7 +48,6 @@ protected slots:
     void browserLoaded(bool ok);
     void postponeButtonClicked(bool ok);
     void iconActivated(QSystemTrayIcon::ActivationReason reason);
-    void replyFinished(QNetworkReply* reply);
 
 private:
     Ui::MainWindow* ui;

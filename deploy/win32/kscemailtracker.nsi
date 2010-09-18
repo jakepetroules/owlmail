@@ -13,7 +13,7 @@ SetCompressorDictSize 64
 	# Set product information...
 	!define PRODUCT_NAME "KSC Email Tracker"
 	!define PRODUCT_UNIXNAME "kscemailtracker"
-	!define PRODUCT_VERSION "2.0.3"
+	!define PRODUCT_VERSION "2.0.4"
 	!define PRODUCT_VERSION_LONG "${PRODUCT_VERSION}.0"
 	!define PRODUCT_PUBLISHER "Petroules Enterprises"
 	!define PRODUCT_WEB_SITE "http://www.petroules.com/products/${PRODUCT_UNIXNAME}/"
@@ -51,7 +51,7 @@ SetCompressorDictSize 64
 	!insertmacro MUI_PAGE_COMPONENTS
 	!insertmacro MUI_PAGE_DIRECTORY
 	Var StartMenuFolder ; Define variable to hold start menu folder
-	!define MUI_STARTMENUPAGE_DEFAULTFOLDER "${PRODUCT_UNIXNAME}" ; Set default start menu folder
+	!define MUI_STARTMENUPAGE_DEFAULTFOLDER "${PRODUCT_NAME}" ; Set default start menu folder
 	!insertmacro MUI_PAGE_STARTMENU "${PRODUCT_UNIXNAME}" $StartMenuFolder
 	!insertmacro MUI_PAGE_INSTFILES
 	!define MUI_FINISHPAGE_NOAUTOCLOSE ; Don't automatically skip past the install details page when it's done

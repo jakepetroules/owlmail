@@ -5,6 +5,7 @@ include(../common.pri)
 include(version.pri)
 
 QT += network \
+    svg \
     webkit
 TARGET = $$APP_UNIXNAME
 TEMPLATE = app

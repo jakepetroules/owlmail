@@ -57,12 +57,17 @@ void AlertDialog::changeEvent(QEvent* e)
  */
 void AlertDialog::show(QList<MailMessageInfo*>* messages)
 {
+    // This must be called before generateMarkup() or the window won't be resized properly;
+    // it needs to be visible before its size is changed since the frame geometry of the window
+    // is used to calculate the new size
+    QDialog::show();
+
     // Delete and nullify the previous list of messages
     this->freeMessages();
 
+    // Add the new messages and generate the markup for them
     this->m_messages = messages;
     this->generateMarkup();
-    QDialog::show();
 }
 
 /*!

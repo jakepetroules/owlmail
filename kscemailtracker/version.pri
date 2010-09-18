@@ -1,4 +1,4 @@
-VERSION                 = 2.0.3
+VERSION                 = 2.0.4
 VER_FILEVERSION_STR     = $${VERSION}.0
 VER_PRODUCTVERSION_STR  = $${VERSION}
 

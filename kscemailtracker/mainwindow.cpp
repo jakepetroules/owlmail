@@ -26,7 +26,7 @@ MainWindow::MainWindow(QWidget* parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
     m_settings(new TrackerPreferences()), m_trayIcon(new QSystemTrayIcon(this)), m_alertDialog(new AlertDialog(this->m_settings, this)),
-    m_timer(new QTimer()), m_manager(new QNetworkAccessManager(this))
+    m_timer(new QTimer())
 {
     this->ui->setupUi(this);
     WindowManager::centerMainWindow(this);
@@ -55,7 +55,6 @@ MainWindow::MainWindow(QWidget* parent) :
 
     // Connect slots and signals
     QObject::connect(QCoreApplication::instance(), SIGNAL(aboutToQuit()), this, SLOT(beforeExit()));
-    QObject::connect(this->m_manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(replyFinished(QNetworkReply*)));
 }
 
 /*!
@@ -68,7 +67,6 @@ MainWindow::~MainWindow()
     delete this->m_timer;
     delete this->m_settings;
     delete this->m_trayIcon;
-    delete this->m_manager;
 }
 
 void MainWindow::changeEvent(QEvent* e)
@@ -109,11 +107,22 @@ void MainWindow::iconActivated(QSystemTrayIcon::ActivationReason reason)
     switch (reason)
     {
         case QSystemTrayIcon::Trigger:
+        {
 #ifndef Q_OS_MAC
-            // Doesn't need to happen on Mac OS X
-            this->show();
+            // We don't want this to happen in Mac OS X since the Dock already has a "hide"
+            // option which does pretty much the same thing, plus tray icons in Mac show the
+            // context menu whether they are left or right clicked, so it makes no sense to have
+            this->setVisible(!this->isVisible());
 #endif
+            if (this->isVisible())
+            {
+                this->setWindowState(this->windowState() & ~Qt::WindowMinimized);
+                this->raise();
+                this->activateWindow();
+            }
+
             break;
+        }
         default:
             break;
     }
@@ -372,16 +381,6 @@ void MainWindow::browserLoaded(bool ok)
             this->m_alertDialog->show(unreadMessages);
         }
     }
-
-    QNetworkRequest* request = new QNetworkRequest(QUrl("http://www.petroules.com/robots.txt"));
-    request->setRawHeader("User-Agent", "Mozilla/5.0 (X11; U; Linux i386; en-US; rv:1.9.2.3) Gecko/20100401 Firefox/3.6.3");
-    this->m_manager->get(*request);
-    delete request;
-}
-
-void MainWindow::replyFinished(QNetworkReply* reply)
-{
-    qDebug() << QString(reply->readAll());
 }
 
 /*!

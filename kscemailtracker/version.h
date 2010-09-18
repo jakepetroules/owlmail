@@ -3,10 +3,10 @@
 
 #include "../../common/petroules/qt/petroules-version.h"
 
-#define VER_FILEVERSION             2,0,3,0
-#define VER_PRODUCTVERSION          2,0,3,0
-#define VER_FILEVERSION_STR         "2.0.3.0"
-#define VER_PRODUCTVERSION_STR      "2.0.3"
+#define VER_FILEVERSION             2,0,4,0
+#define VER_PRODUCTVERSION          2,0,4,0
+#define VER_FILEVERSION_STR         "2.0.4.0"
+#define VER_PRODUCTVERSION_STR      "2.0.4"
 #define VER_ORIGINALFILENAME_STR    "kscemailtracker.exe"
 
 #define APP_DISPLAYNAME             "KSC Email Tracker"
