@@ -34,7 +34,6 @@ protected:
     void initializeTrayIcon();
 
 protected slots:
-    void beforeExit();
     void exit();
     void navigateHome();
     void navigateInbox();
@@ -51,7 +50,6 @@ protected slots:
 
 private:
     Ui::MainWindow* ui;
-    TrackerPreferences* m_settings;
     QSystemTrayIcon* m_trayIcon;
     AlertDialog* m_alertDialog;
     QTimer* m_timer;

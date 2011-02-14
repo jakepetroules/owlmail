@@ -15,7 +15,7 @@ class PreferencesDialog : public QDialog
     Q_OBJECT
 
 public:
-    PreferencesDialog(TrackerPreferences* settings, QWidget* parent = NULL);
+    PreferencesDialog(QWidget* parent = NULL);
     ~PreferencesDialog();
 
 protected:
@@ -31,7 +31,6 @@ protected slots:
 private:
     QString getApplicationFilePath() const;
     Ui::PreferencesDialog* ui;
-    TrackerPreferences* m_settings;
     QList<int>* m_idsRemoved;
 };
 

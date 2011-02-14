@@ -5,6 +5,7 @@
 #include "mailmessageinfo.h"
 #include "preferencesdialog.h"
 #include "trackerpreferences.h"
+#include "updatedialog.h"
 #include "version.h"
 #include <liel.h>
 #include <QtSingleApplication>
@@ -25,7 +26,7 @@
 MainWindow::MainWindow(QWidget* parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    m_settings(new TrackerPreferences()), m_trayIcon(new QSystemTrayIcon(this)), m_alertDialog(new AlertDialog(this->m_settings, this)),
+    m_trayIcon(new QSystemTrayIcon(this)), m_alertDialog(new AlertDialog(this)),
     m_timer(new QTimer())
 {
     this->ui->setupUi(this);
@@ -44,17 +45,11 @@ MainWindow::MainWindow(QWidget* parent) :
     this->ui->actionMyKSCInbox->setShortcut(QKeySequence::Back);
     this->ui->actionOptions->setShortcut(QKeySequence::Preferences);
 
-    // Read the settings from the file
-    this->m_settings->read();
-
     // Initialize the tray icon
     this->initializeTrayIcon();
 
     // Initialize the program
     this->initialize();
-
-    // Connect slots and signals
-    QObject::connect(QCoreApplication::instance(), SIGNAL(aboutToQuit()), this, SLOT(beforeExit()));
 }
 
 /*!
@@ -65,7 +60,6 @@ MainWindow::~MainWindow()
     delete this->m_alertDialog;
     delete this->ui;
     delete this->m_timer;
-    delete this->m_settings;
     delete this->m_trayIcon;
 }
 
@@ -188,14 +182,6 @@ void MainWindow::initialize()
 }
 
 /*!
-    Performs operations before the program exits.
- */
-void MainWindow::beforeExit()
-{
-    this->m_settings->write();
-}
-
-/*!
     Exits the application.
  */
 void MainWindow::exit()
@@ -226,7 +212,7 @@ void MainWindow::navigateInbox()
  */
 void MainWindow::options()
 {
-    PreferencesDialog dialog(this->m_settings, this);
+    PreferencesDialog dialog(this);
     dialog.exec();
 }
 
@@ -250,15 +236,8 @@ void MainWindow::donate()
  */
 void MainWindow::checkForUpdates()
 {
-    if (QMessageBox::information(this, this->windowTitle(),
-        QString(tr("You are running %1 version %2. Would you like to open the project's page in your web browser to see if a newer version is available?"))
-        .arg(ApplicationInfo::applicationName())
-        .arg(ApplicationInfo::applicationVersion().toString()),
-        QMessageBox::Yes,
-        QMessageBox::No) == QMessageBox::Yes)
-    {
-        QDesktopServices::openUrl(QUrl("http://www.petroules.com/products/kscemailtracker/"));
-    }
+    UpdateDialog dialog(this);
+    dialog.exec();
 }
 
 /*!
@@ -318,6 +297,8 @@ void MainWindow::browserReload()
  */
 void MainWindow::browserLoaded(bool ok)
 {
+    Q_UNUSED(ok);
+
     QString documentHtml = this->ui->webView->page()->mainFrame()->toHtml();
     if (documentHtml.contains("Invalid context.") && documentHtml.contains("No E-mail Found."))
     {
@@ -329,12 +310,12 @@ void MainWindow::browserLoaded(bool ok)
     if (documentHtml.contains("Log In</H1>") || documentHtml.contains("icon_signin_secure.gif"))
     {
         // Read username and password from settings file and inject values into webpage
-        this->ui->webView->page()->mainFrame()->findFirstElement("#userName").setAttribute("value", this->m_settings->getUsername());
-        this->ui->webView->page()->mainFrame()->findFirstElement("#password").setAttribute("value", this->m_settings->getPassword());
+        this->ui->webView->page()->mainFrame()->findFirstElement("#userName").setAttribute("value", TrackerPreferences::instance().username());
+        this->ui->webView->page()->mainFrame()->findFirstElement("#password").setAttribute("value", TrackerPreferences::instance().password());
 
         // We only want to submit if the username and password are BOTH not blank
         // That way a user can store their username only and manually enter their password (which is more secure)
-        if (this->m_settings->getUsername() != "" && this->m_settings->getPassword() != "")
+        if (TrackerPreferences::instance().username() != "" && TrackerPreferences::instance().password() != "")
         {
             // If the page does NOT contain the "invalid password/credentials" string, submit the form -
             // we don't want to submit the wrong password over and over and get the user's account locked
@@ -369,7 +350,7 @@ void MainWindow::browserLoaded(bool ok)
             QDateTime mailDateTime = QDateTime::fromString(cells.at(4).toPlainText(), "MM/dd/yyyy hh:mm AP");
 
             // We only want unread messages and ones that aren't stopped from alerting about
-            if (cells.at(1).firstChild().attribute("alt") == "Unread" && !this->m_settings->containsMessageWithId(mailId))
+            if (cells.at(1).firstChild().attribute("alt") == "Unread" && !TrackerPreferences::instance().containsMessageWithId(mailId))
             {
                 MailMessageInfo* info = new MailMessageInfo(mailId, mailSender, mailSubject, mailDateTime);
                 unreadMessages->append(info);
@@ -388,6 +369,8 @@ void MainWindow::browserLoaded(bool ok)
  */
 void MainWindow::postponeButtonClicked(bool ok)
 {
+    Q_UNUSED(ok);
+
     this->m_lastRefresh = this->m_lastRefresh.addSecs(this->m_refreshInterval);
     this->ui->postponeButton->setEnabled(false);
 }

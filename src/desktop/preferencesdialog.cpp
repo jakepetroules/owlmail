@@ -15,10 +15,10 @@
 /*!
     Constructs a new PreferencesDialog.
  */
-PreferencesDialog::PreferencesDialog(TrackerPreferences* settings, QWidget* parent) :
+PreferencesDialog::PreferencesDialog(QWidget* parent) :
     QDialog(parent),
     ui(new Ui::PreferencesDialog),
-    m_settings(settings), m_idsRemoved(new QList<int>())
+    m_idsRemoved(new QList<int>())
 {
     this->ui->setupUi(this);
 
@@ -26,17 +26,17 @@ PreferencesDialog::PreferencesDialog(TrackerPreferences* settings, QWidget* pare
     this->togglePassword(this->ui->showPasswordCheckBox->checkState());
 
     // Bring in the username and password from the settings
-    this->ui->usernameTextBox->setText(this->m_settings->getUsername());
-    this->ui->passwordTextBox->setText(this->m_settings->getPassword());
+    this->ui->usernameTextBox->setText(TrackerPreferences::instance().username());
+    this->ui->passwordTextBox->setText(TrackerPreferences::instance().password());
 
     // Bring in the messages for which alerts are suppressed
-    for (int i = 0; i < this->m_settings->getSuppressedMessages()->count(); i++)
+    for (int i = 0; i < TrackerPreferences::instance().suppressedMessages()->count(); i++)
     {
         this->ui->tableMessages->insertRow(i);
-        this->ui->tableMessages->setCellWidget(i, 0, new QLabel(QString::number(this->m_settings->getSuppressedMessages()->at(i)->id())));
-        this->ui->tableMessages->setCellWidget(i, 1, new QLabel(this->m_settings->getSuppressedMessages()->at(i)->subject()));
-        this->ui->tableMessages->setCellWidget(i, 2, new QLabel(this->m_settings->getSuppressedMessages()->at(i)->sender()));
-        this->ui->tableMessages->setCellWidget(i, 3, new QLabel(this->m_settings->getSuppressedMessages()->at(i)->received().toString("MM/dd/yyyy hh:mm AP")));
+        this->ui->tableMessages->setCellWidget(i, 0, new QLabel(QString::number(TrackerPreferences::instance().suppressedMessages()->at(i)->id())));
+        this->ui->tableMessages->setCellWidget(i, 1, new QLabel(TrackerPreferences::instance().suppressedMessages()->at(i)->subject()));
+        this->ui->tableMessages->setCellWidget(i, 2, new QLabel(TrackerPreferences::instance().suppressedMessages()->at(i)->sender()));
+        this->ui->tableMessages->setCellWidget(i, 3, new QLabel(TrackerPreferences::instance().suppressedMessages()->at(i)->received().toString("MM/dd/yyyy hh:mm AP")));
     }
 
 #ifdef Q_OS_WIN32
@@ -143,13 +143,13 @@ void PreferencesDialog::removeSelected()
 void PreferencesDialog::accept()
 {
     // Commit the username and password to the settings
-    this->m_settings->setUsername(this->ui->usernameTextBox->text());
-    this->m_settings->setPassword(this->ui->passwordTextBox->text());
+    TrackerPreferences::instance().setUsername(this->ui->usernameTextBox->text());
+    TrackerPreferences::instance().setPassword(this->ui->passwordTextBox->text());
 
     // For any message IDs we wanted to unblock, remove them from the block list
     for (int i = 0; i < this->m_idsRemoved->count(); i++)
     {
-        this->m_settings->removeMessageWithId(this->m_idsRemoved->at(i));
+        TrackerPreferences::instance().removeMessageWithId(this->m_idsRemoved->at(i));
     }
 
     #ifdef Q_OS_WIN32

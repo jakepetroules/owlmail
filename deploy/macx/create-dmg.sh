@@ -7,38 +7,47 @@ echo
 APPNAME="kscemailtracker"
 FRIENDLYNAME="KSC Email Tracker"
 
+OLDBUNDLE="$APPNAME.app"
 BUNDLE="$FRIENDLYNAME.app"
 DISKIMAGE="$APPNAME.dmg"
-DMGDIR="$PWD/../../../kscemailtracker-build-desktop/bin"
+SRCDIR="$PWD/../../$APPNAME-build-desktop/desktop"
+DMGDIR="$PWD/tmp"
+CREATEDMGDIR="$PWD/../../src/3rdparty/temp/create-dmg"
 
-if [ ! -d "$DMGDIR/$BUNDLE" ] ; then
-    echo "ERROR: cannot find application bundle \"$BUNDLE\" in directory \"$DIRECTORY\""
+if [ ! -d "$SRCDIR/$OLDBUNDLE" ] ; then
+    echo "ERROR: cannot find application bundle \"$OLDBUNDLE\" in directory \"$SRCDIR\""
     exit
 fi
 
-if [ -f "$DMGDIR/$DISKIMAGE" ] ; then
-    rm "$DMGDIR/$DISKIMAGE"
+# Remove previous disk image
+if [ -f "$DISKIMAGE" ] ; then
+    rm "$DISKIMAGE"
 fi
+
+# Copy the bundle from the build directory, macdeployqt it, and rename it
+mkdir "$DMGDIR"
+cp -R "$SRCDIR/$OLDBUNDLE" "$DMGDIR"
+macdeployqt "$DMGDIR/$OLDBUNDLE" -verbose=3
+mv "$DMGDIR/$OLDBUNDLE" "$DMGDIR/$BUNDLE"
 
 # Create a symlink to /Applications in the build directory
 ln -s "/Applications" "$DMGDIR"
 
 # Create disk image
 # The window must be 46 pixels taller than the background image
-"$PWD/../../../common/3rdparty/create-dmg/create-dmg" \
+chmod +x "$CREATEDMGDIR/create-dmg"
+chmod +x "$CREATEDMGDIR/support/AdiumApplescriptRunner"
+"$CREATEDMGDIR/create-dmg" \
     --volname "$FRIENDLYNAME" \
-    --background "$PWD/../../../common/petroules/qt/macx/dmg-background.png" \
+    --background "dmg-background.png" \
     --window-size 600 396 \
     --icon-size 128 \
-	--icon "$BUNDLE" 160 100 \
+    --icon "$BUNDLE" 160 100 \
     --icon "Applications" 440 100 \
     "$DISKIMAGE" \
     "$DMGDIR"
 
 hdiutil internet-enable -yes "$DISKIMAGE"
 
-# Move the disk image to the output directory
-mv "$DISKIMAGE" "$DMGDIR/$DISKIMAGE"
-
-# Remove Applications folder link
-rm "$DMGDIR/Applications"
+# Remove temporary folder
+rm -rf "$DMGDIR"

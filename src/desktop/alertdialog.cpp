@@ -11,10 +11,10 @@
 /*!
     Constructs a new alert dialog.
  */
-AlertDialog::AlertDialog(TrackerPreferences* settings, QMainWindow* trackerWindow, QWidget* parent) :
+AlertDialog::AlertDialog(QMainWindow* trackerWindow, QWidget* parent) :
     QDialog(parent),
     ui(new Ui::AlertDialog),
-    m_settings(settings), m_trackerWindow(trackerWindow), m_messages(NULL)
+    m_trackerWindow(trackerWindow), m_messages(NULL)
 {
     this->ui->setupUi(this);
 
@@ -111,6 +111,8 @@ void AlertDialog::generateMarkup()
  */
 void AlertDialog::loadFinished(bool ok)
 {
+    Q_UNUSED(ok);
+
     // Get the working area of the screen
     QRect desktopWorkingArea = QApplication::desktop()->availableGeometry();
 
@@ -179,9 +181,9 @@ void AlertDialog::linkClicked(QUrl url)
         }
 
         // Find if it's already in the block list, otherwise we add it
-        if (!this->m_settings->containsMessageWithId(messageId))
+        if (!TrackerPreferences::instance().containsMessageWithId(messageId))
         {
-            this->m_settings->getSuppressedMessages()->append(this->m_messages->at(index));
+            TrackerPreferences::instance().suppressedMessages()->append(this->m_messages->at(index));
         }
     }
 }

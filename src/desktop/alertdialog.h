@@ -17,7 +17,7 @@ class AlertDialog : public QDialog
     Q_OBJECT
 
 public:
-    AlertDialog(TrackerPreferences* settings, QMainWindow* trackerWindow, QWidget* parent = NULL);
+    AlertDialog(QMainWindow* trackerWindow, QWidget* parent = NULL);
     ~AlertDialog();
     void show(QList<MailMessageInfo*>* messages);
     void show();
@@ -32,7 +32,6 @@ protected slots:
 
 private:
     Ui::AlertDialog* ui;
-    TrackerPreferences* m_settings;
     QMainWindow* m_trackerWindow;
     QList<MailMessageInfo*>* m_messages;
     void generateMarkup();
