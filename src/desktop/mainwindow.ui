@@ -14,7 +14,7 @@
    <string>KSC Email Tracker</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="resources.qrc">
+   <iconset resource="../../res/globalresources.qrc">
     <normaloff>:/main/res/app.svg</normaloff>:/main/res/app.svg</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
@@ -75,7 +75,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -103,15 +103,15 @@
     </property>
     <addaction name="actionOptions"/>
    </widget>
-   <widget class="QMenu" name="menuNavigate">
+   <widget class="QMenu" name="menuView">
     <property name="title">
-     <string>Navigate</string>
+     <string>View</string>
     </property>
-    <addaction name="actionMyKSCHome"/>
-    <addaction name="actionMyKSCInbox"/>
+    <addaction name="actionHome"/>
+    <addaction name="actionInbox"/>
    </widget>
    <addaction name="menuFile"/>
-   <addaction name="menuNavigate"/>
+   <addaction name="menuView"/>
    <addaction name="menuTools"/>
    <addaction name="menuHelp"/>
   </widget>
@@ -144,14 +144,20 @@
     <string>Configure application settings and preferences</string>
    </property>
   </action>
-  <action name="actionMyKSCHome">
+  <action name="actionHome">
    <property name="text">
-    <string>MyKSC Home</string>
+    <string>Home</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+H</string>
    </property>
   </action>
-  <action name="actionMyKSCInbox">
+  <action name="actionInbox">
    <property name="text">
-    <string>MyKSC Inbox</string>
+    <string>Inbox</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+0</string>
    </property>
   </action>
   <action name="actionWebsite">
@@ -188,7 +194,7 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="resources.qrc"/>
+  <include location="../../res/globalresources.qrc"/>
  </resources>
  <connections>
   <connection>
@@ -272,7 +278,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>actionMyKSCHome</sender>
+   <sender>actionHome</sender>
    <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
    <slot>navigateHome()</slot>
@@ -288,7 +294,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>actionMyKSCInbox</sender>
+   <sender>actionInbox</sender>
    <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
    <slot>navigateInbox()</slot>

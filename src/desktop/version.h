@@ -1,5 +1,5 @@
-#ifndef VERSION_H
-#define VERSION_H
+#ifndef VERSION_H_KSC
+#define VERSION_H_KSC
 
 #define VER_FILEVERSION             1,1,0,0
 #define VER_PRODUCTVERSION          1,1,0,0
@@ -20,4 +20,6 @@
 #define VER_LEGALTRADEMARKS2_STR    VER_LEGALTRADEMARKS1_STR
 #define VER_COMPANYDOMAIN_STR       "petroules.com"
 
-#endif // VERSION_H
+#define VER_APP_UUID                "{DC8AF5C1-2488-4261-A882-AA52E98256E0}"
+
+#endif // VERSION_H_KSC

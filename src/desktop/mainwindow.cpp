@@ -1,18 +1,21 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "aboutdialog.h"
-#include "alertdialog.h"
+#include "kscemailtrackerapplication.h"
 #include "mailmessageinfo.h"
-#include "preferencesdialog.h"
 #include "trackerpreferences.h"
-#include "updatedialog.h"
+#include "dialogs/aboutdialog.h"
+#include "dialogs/alertdialog.h"
+#include "dialogs/preferencesdialog.h"
+#include "dialogs/updatedialog.h"
 #include "version.h"
-#include <liel.h>
-#include <QtSingleApplication>
+#include <synteza.h>
 
 #define KSC_PAGE "http://prod.campuscruiser.com/myksc/"
 #define INITIAL_MAIL_PAGE "http://prod.campuscruiser.com/emPageServlet?pg=papp&a=email&cx=u&cp=160"
 #define MAIL_PAGE "http://prod.campuscruiser.com/emPageServlet?cx=u&pg=papp&tg=Email-checkmail&cmd=checkmail"
+
+void setBadge(int count);
+void clearBadge();
 
 /*!
     \class MainWindow
@@ -42,7 +45,6 @@ MainWindow::MainWindow(QWidget* parent) :
 
     // Keyboard Shortcuts
     this->ui->actionExit->setShortcut(QKeySequence::Quit);
-    this->ui->actionMyKSCInbox->setShortcut(QKeySequence::Back);
     this->ui->actionOptions->setShortcut(QKeySequence::Preferences);
 
     // Initialize the tray icon
@@ -87,9 +89,9 @@ void MainWindow::closeEvent(QCloseEvent* event)
         event->ignore();
         this->hide();
 
-        this->m_trayIcon->showMessage(ApplicationInfo::applicationName(),
+        this->m_trayIcon->showMessage(qiApp->applicationName(),
             tr("%1 is still running. To exit the program right click this icon and select exit.")
-            .arg(ApplicationInfo::applicationName()), QSystemTrayIcon::Information);
+            .arg(qiApp->applicationName()), QSystemTrayIcon::Information);
     }
 }
 
@@ -102,12 +104,7 @@ void MainWindow::iconActivated(QSystemTrayIcon::ActivationReason reason)
     {
         case QSystemTrayIcon::Trigger:
         {
-#ifndef Q_OS_MAC
-            // We don't want this to happen in Mac OS X since the Dock already has a "hide"
-            // option which does pretty much the same thing, plus tray icons in Mac show the
-            // context menu whether they are left or right clicked, so it makes no sense to have
             this->setVisible(!this->isVisible());
-#endif
             if (this->isVisible())
             {
                 this->setWindowState(this->windowState() & ~Qt::WindowMinimized);
@@ -131,8 +128,7 @@ void MainWindow::handleMessage(const QString &message)
 
 void MainWindow::updateSingleInstance(MainWindow *mw)
 {
-    QCoreApplication *app = QCoreApplication::instance();
-    QtSingleApplication *singleApp = qobject_cast<QtSingleApplication*>(app);
+    IntegratedApplication *singleApp = qiApp;
     if (singleApp)
     {
         // Remove any previous messageReceived signal handler and reconnect it to the specified MainWindow
@@ -152,6 +148,7 @@ void MainWindow::updateSingleInstance(MainWindow *mw)
  */
 void MainWindow::initializeTrayIcon()
 {
+#ifndef Q_WS_MAC
     this->m_trayIcon->setIcon(this->windowIcon());
     this->m_trayIcon->setToolTip(this->windowTitle());
     this->m_trayIcon->setContextMenu(this->ui->menuFile);
@@ -160,6 +157,7 @@ void MainWindow::initializeTrayIcon()
     // Connect our icon activated event so we can re-show the window when the user double clicks the icon
     QObject::connect(this->m_trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
         this, SLOT(iconActivated(QSystemTrayIcon::ActivationReason)));
+#endif
 }
 
 /*!
@@ -212,23 +210,22 @@ void MainWindow::navigateInbox()
  */
 void MainWindow::options()
 {
-    PreferencesDialog dialog(this);
-    dialog.exec();
+    qkApp->preferences();
 }
 
 void MainWindow::help()
 {
-    QDesktopServices::openUrl(ApplicationInfo::url(ApplicationInfo::ApplicationHelp));
+    qkApp->showHelpContents();
 }
 
 void MainWindow::website()
 {
-    QDesktopServices::openUrl(ApplicationInfo::url(ApplicationInfo::ApplicationHomePage));
+    qkApp->launchProductWebsite();
 }
 
 void MainWindow::donate()
 {
-    QDesktopServices::openUrl(ApplicationInfo::url(ApplicationInfo::OrganizationDonations));
+    qkApp->launchDonationsWebsite();
 }
 
 /*!
@@ -236,8 +233,7 @@ void MainWindow::donate()
  */
 void MainWindow::checkForUpdates()
 {
-    UpdateDialog dialog(this);
-    dialog.exec();
+    qkApp->checkForUpdates();
 }
 
 /*!
@@ -245,8 +241,7 @@ void MainWindow::checkForUpdates()
  */
 void MainWindow::about()
 {
-    AboutDialog dialog(this);
-    dialog.exec();
+    qkApp->about();
 }
 
 /*!
@@ -360,6 +355,13 @@ void MainWindow::browserLoaded(bool ok)
         if (unreadMessages->count() > 0)
         {
             this->m_alertDialog->show(unreadMessages);
+            QApplication::alert(this);
+
+            setBadge(unreadMessages->count());
+        }
+        else
+        {
+            clearBadge();
         }
     }
 }

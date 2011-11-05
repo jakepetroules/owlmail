@@ -22,39 +22,44 @@ TARGET = kscemailtracker
 # --------------------------------------------------
 
 HEADERS += \
+    kscemailtrackerapplication.h \
+    mailmessageinfo.h \
     mainwindow.h \
     trackerpreferences.h \
-    mailmessageinfo.h \
-    alertdialog.h \
-    preferencesdialog.h \
+    trackerpreferences_keys.h \
     version.h \
-    aboutdialog.h \
-    licensedialog.h \
-    updatedialog.h \
-    trackerpreferences_keys.h
+    dialogs/aboutdialog.h \
+    dialogs/alertdialog.h \
+    dialogs/licensedialog.h \
+    dialogs/nativedialogs.h \ # Should not be in here
+    dialogs/preferencesdialog.h \
+    dialogs/updatedialog.h \
+    kscemailtrackerapplicationmac.h
 SOURCES += \
+    kscemailtrackerapplication.cpp \
+    mailmessageinfo.cpp \
     main.cpp \
     mainwindow.cpp \
     trackerpreferences.cpp \
-    mailmessageinfo.cpp \
-    alertdialog.cpp \
-    preferencesdialog.cpp \
-    aboutdialog.cpp \
-    licensedialog.cpp \
-    updatedialog.cpp
+    dialogs/aboutdialog.cpp \
+    dialogs/alertdialog.cpp \
+    dialogs/licensedialog.cpp \
+    dialogs/nativedialogs.cpp \ # Should not be in here
+    dialogs/preferencesdialog.cpp \
+    dialogs/updatedialog.cpp
+macx:OBJECTIVE_SOURCES += helper.mm kscemailtrackerapplicationmac.mm
 FORMS += \
     mainwindow.ui \
-    alertdialog.ui \
-    aboutdialog.ui \
-    preferencesdialog.ui \
-    licensedialog.ui \
-    updatedialog.ui
+    dialogs/aboutdialog.ui \
+    dialogs/alertdialog.ui \
+    dialogs/licensedialog.ui \
+    dialogs/preferencesdialog.ui \
+    dialogs/updatedialog.ui
 RESOURCES += \
     resources.qrc \
     ../../res/globalresources.qrc
 OTHER_FILES += \
     kscemailtracker.rc \
-    version.pri \
     kscemailtracker.manifest \
     Info.plist
 
@@ -66,23 +71,28 @@ OTHER_FILES += \
 
 win32:LIBS += -luser32
 
-!include(../3rdparty/temp/qtsolutions/qtsingleapplication/src/qtsingleapplication.pri) {
-    error("Could not find the qtsingleapplication.pri file! Have you run configure in the 3rdparty directory?")
-}
+win32:TEMP_BUILDDIR = temp-win32-gcc
+win32-msvc*:TEMP_BUILDDIR = temp-win32-msvc
+macx:TEMP_BUILDDIR = temp-mac64
+linux-g++:TEMP_BUILDDIR = temp-linux32
 
-LIEL_PATH = ../3rdparty/temp/liel/qt/liel
+SYNTEZA_PATH = ../3rdparty/$$TEMP_BUILDDIR/synteza/qt
 
-# LIEL library
+# Synteza library
 
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/$$LIEL_PATH/release/ -lliel
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/$$LIEL_PATH/debug/ -lliel
-else:symbian: LIBS += -lliel
-else:unix: LIBS += -L$$OUT_PWD/$$LIEL_PATH/ -lliel
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/$$SYNTEZA_PATH/release/ -lsynteza
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/$$SYNTEZA_PATH/debug/ -lsynteza
+else:symbian: LIBS += -lsynteza
+else:unix: LIBS += -L$$OUT_PWD/$$SYNTEZA_PATH/ -lsynteza
 
-INCLUDEPATH += $$PWD/$$LIEL_PATH
-DEPENDPATH += $$PWD/$$LIEL_PATH
+INCLUDEPATH += $$PWD/$$SYNTEZA_PATH
+DEPENDPATH += $$PWD/$$SYNTEZA_PATH
 
-macx:PRE_TARGETDEPS += $$OUT_PWD/$$LIEL_PATH/libliel.a
+macx:PRE_TARGETDEPS += $$OUT_PWD/$$SYNTEZA_PATH/libsynteza.a
+
+# System libraries
+
+macx:LIBS += -framework Cocoa
 
 # --------------------------------------------------
 # This section contains miscellaneous commands such
@@ -95,3 +105,6 @@ macx:QMAKE_INFO_PLIST = Info.plist
 
 # Show the console when debugging on Windows
 win32:CONFIG(debug, debug|release):CONFIG += console
+
+
+

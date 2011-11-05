@@ -3,19 +3,19 @@
 
 #include <QtGui>
 
-class TrackerPreferences;
-
 namespace Ui
 {
     class PreferencesDialog;
 }
+
+class TrackerPreferences;
 
 class PreferencesDialog : public QDialog
 {
     Q_OBJECT
 
 public:
-    PreferencesDialog(QWidget* parent = NULL);
+    explicit PreferencesDialog(QWidget* parent = NULL);
     ~PreferencesDialog();
 
 protected:
