@@ -60,6 +60,16 @@ KSCEmailTrackerApplication::~KSCEmailTrackerApplication()
     TrackerPreferences::instance().destroy();
 }
 
+bool KSCEmailTrackerApplication::handleReopen(bool hasVisibleWindows)
+{
+    if (!hasVisibleWindows)
+    {
+        this->showMainWindow();
+    }
+
+    return true;
+}
+
 void KSCEmailTrackerApplication::showHelpContents()
 {
     QDesktopServices::openUrl(this->url(ApplicationHelp));

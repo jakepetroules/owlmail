@@ -1,8 +1,7 @@
 #include "aboutdialog.h"
 #include "ui_aboutdialog.h"
 #include "licensedialog.h"
-#include <synteza.h>
-#include "nativedialogs.h"
+#include <petroules-utilities.h>
 
 /*!
     \class AboutDialog
@@ -76,7 +75,7 @@ void AboutDialog::displayBuildInformationDialog()
                                 "<ul>"
                                 "<li>Qt %4</li>"
                                 "<li>Qt Solutions %5</li>"
-                                "<li>Synteza %6</li>"
+                                "<li>Petroules Utilities %6</li>"
                                 "<li>Botan %7</li>"
                                 "</ul>"
                                 "<p>Running on %8 with a %9 processor.</p>")
@@ -85,7 +84,7 @@ void AboutDialog::displayBuildInformationDialog()
         .arg(PlatformInformation::compilerString())
         .arg(qVersion())
         .arg("2.6")
-        .arg(SYNTEZA_VERSION_STR)
+        .arg(PETROULESUTILITIES_VERSION_STR)
         .arg("")
         .arg(osString)
         .arg(PlatformInformation::byteOrder());

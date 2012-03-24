@@ -2,7 +2,7 @@
 #define TRACKERPREFERENCES_H
 
 #include <QtCore>
-#include <synteza.h>
+#include <petroules-utilities.h>
 
 class MailMessageInfo;
 

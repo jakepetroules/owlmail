@@ -4,6 +4,7 @@
 #include <QtGui>
 #include <QtNetwork>
 #include <QtWebKit>
+#include <integratedmainwindow.h>
 
 class AlertDialog;
 class TrackerPreferences;
@@ -13,7 +14,7 @@ namespace Ui
     class MainWindow;
 }
 
-class MainWindow : public QMainWindow
+class MainWindow : public IntegratedMainWindow
 {
     Q_OBJECT
 

@@ -1,8 +1,8 @@
 .DS_Store
+Thumbs.db
 deploy/win32/*.msi
 deploy/win32/*.sln
 deploy/win32/*.suo
 kscemailtracker-build-*
 src/.metadata
 src/*.pro.user
-src/3rdparty/temp-*

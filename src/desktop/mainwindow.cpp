@@ -9,14 +9,11 @@
 #include "dialogs/preferencesdialog.h"
 #include "dialogs/updatedialog.h"
 #include "version.h"
-#include <synteza.h>
+#include <petroules-utilities.h>
 
 #define KSC_PAGE "http://prod.campuscruiser.com/myksc/"
 #define INITIAL_MAIL_PAGE "http://prod.campuscruiser.com/emPageServlet?pg=papp&a=email&cx=u&cp=160"
 #define MAIL_PAGE "http://prod.campuscruiser.com/emPageServlet?cx=u&pg=papp&tg=Email-checkmail&cmd=checkmail"
-
-void setBadge(int count);
-void clearBadge();
 
 /*!
     \class MainWindow
@@ -28,7 +25,7 @@ void clearBadge();
     Constructs an new MainWindow.
  */
 MainWindow::MainWindow(QWidget* parent) :
-    QMainWindow(parent),
+    IntegratedMainWindow(parent),
     ui(new Ui::MainWindow),
     m_trayIcon(new QSystemTrayIcon(this)), m_alertDialog(new AlertDialog(this)),
     m_timer(new QTimer())
@@ -180,6 +177,8 @@ void MainWindow::initialize()
     // and start the timer with a 1000 ms (1 second) interval
     QObject::connect(this->m_timer, SIGNAL(timeout()), this, SLOT(browserReload()));
     this->m_timer->start(1000);
+
+    this->setNativeFullScreenEnabled(true);
 }
 
 /*!
@@ -360,11 +359,11 @@ void MainWindow::browserLoaded(bool ok)
             this->m_alertDialog->show(unreadMessages);
             QApplication::alert(this);
 
-            setBadge(unreadMessages->count());
+            qkApp->setBadgeText(unreadMessages->count());
         }
         else
         {
-            clearBadge();
+            qkApp->clearBadgeText();
         }
     }
 }

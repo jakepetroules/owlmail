@@ -5,7 +5,7 @@
 # be defined.
 # --------------------------------------------------
 
-QT += network svg xml webkit
+QT += network svg webkit xml
 TEMPLATE = app
 TARGET = kscemailtracker
 
@@ -31,10 +31,8 @@ HEADERS += \
     dialogs/aboutdialog.h \
     dialogs/alertdialog.h \
     dialogs/licensedialog.h \
-    dialogs/nativedialogs.h \
     dialogs/preferencesdialog.h \
     dialogs/updatedialog.h \
-    kscemailtrackerapplicationmac.h \
     trackerwebpage.h
 SOURCES += \
     kscemailtrackerapplication.cpp \
@@ -45,11 +43,9 @@ SOURCES += \
     dialogs/aboutdialog.cpp \
     dialogs/alertdialog.cpp \
     dialogs/licensedialog.cpp \
-    dialogs/nativedialogs.cpp \
     dialogs/preferencesdialog.cpp \
     dialogs/updatedialog.cpp \
     trackerwebpage.cpp
-macx:OBJECTIVE_SOURCES += helper.mm kscemailtrackerapplicationmac.mm
 FORMS += \
     mainwindow.ui \
     dialogs/aboutdialog.ui \
@@ -72,29 +68,24 @@ OTHER_FILES += \
 # --------------------------------------------------
 
 win32:LIBS += -luser32
-
-win32:TEMP_BUILDDIR = temp-win32-gcc
-win32-msvc*:TEMP_BUILDDIR = temp-win32-msvc
-macx:TEMP_BUILDDIR = temp-mac64
-linux-g++:TEMP_BUILDDIR = temp-linux32
-
-SYNTEZA_PATH = ../3rdparty/$$TEMP_BUILDDIR/synteza/qt
-
-# Synteza library
-
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/$$SYNTEZA_PATH/release/ -lsynteza
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/$$SYNTEZA_PATH/debug/ -lsynteza
-else:symbian: LIBS += -lsynteza
-else:unix: LIBS += -L$$OUT_PWD/$$SYNTEZA_PATH/ -lsynteza
-
-INCLUDEPATH += $$PWD/$$SYNTEZA_PATH
-DEPENDPATH += $$PWD/$$SYNTEZA_PATH
-
-macx:PRE_TARGETDEPS += $$OUT_PWD/$$SYNTEZA_PATH/libsynteza.a
-
-# System libraries
-
 macx:LIBS += -framework Cocoa
+
+PETROULESUTILITIES_PATH = ../petroules-utilities-qt/src
+QTSOLUTIONS_PATH = $$PETROULESUTILITIES_PATH/../lib/qtsingleapplication/src
+
+# Petroules Utilities library
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/$$PETROULESUTILITIES_PATH/release/ -lpetroules-utilities
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/$$PETROULESUTILITIES_PATH/debug/ -lpetroules-utilities
+else:symbian: LIBS += -lpetroules-utilities
+else:unix: LIBS += -L$$OUT_PWD/$$PETROULESUTILITIES_PATH/ -lpetroules-utilities
+
+# We have to make sure we include the QtSingleApplication headers
+# path because it will get indirectly included from THIS project
+INCLUDEPATH += $$PWD/$$PETROULESUTILITIES_PATH $$PWD/$$QTSOLUTIONS_PATH
+DEPENDPATH += $$PWD/$$PETROULESUTILITIES_PATH $$PWD/$$QTSOLUTIONS_PATH
+
+macx:PRE_TARGETDEPS += $$OUT_PWD/$$PETROULESUTILITIES_PATH/libpetroules-utilities.a
 
 # --------------------------------------------------
 # This section contains miscellaneous commands such

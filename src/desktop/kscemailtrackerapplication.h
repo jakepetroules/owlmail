@@ -1,7 +1,7 @@
 #ifndef KSCEMAILTRACKERAPPLICATION_H
 #define KSCEMAILTRACKERAPPLICATION_H
 
-#include <synteza.h>
+#include <petroules-utilities.h>
 
 class KSCEmailTrackerApplication : public IntegratedApplication
 {
@@ -10,6 +10,7 @@ class KSCEmailTrackerApplication : public IntegratedApplication
 public:
     explicit KSCEmailTrackerApplication(int &argc, char *argv[]);
     ~KSCEmailTrackerApplication();
+    virtual bool handleReopen(bool hasVisibleWindows);
 
 public slots:
     // Help menu

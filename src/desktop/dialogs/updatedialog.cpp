@@ -1,9 +1,8 @@
 #include "updatedialog.h"
 #include "ui_updatedialog.h"
 #include "trackerpreferences.h"
-#include <synteza.h>
 #include <QtXml>
-#include "nativedialogs.h"
+#include <petroules-utilities.h>
 
 /*!
     \class UpdateDialog

@@ -1,15 +1,10 @@
 #include <QtGui>
 #include "kscemailtrackerapplication.h"
-#include "kscemailtrackerapplicationmac.h"
 #include "mainwindow.h"
 
 int main(int argc, char *argv[])
 {
-#ifdef Q_WS_MAC
-    KSCEmailTrackerApplicationMac instance(argc, argv);
-#else
     KSCEmailTrackerApplication instance(argc, argv);
-#endif
 
     // Send a string comprised of all but the first argument (the application name) to any other
     // instance that may be running, and bail out if it received it (e.g. it is running)
