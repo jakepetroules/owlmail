@@ -31,10 +31,11 @@ HEADERS += \
     dialogs/aboutdialog.h \
     dialogs/alertdialog.h \
     dialogs/licensedialog.h \
-    dialogs/nativedialogs.h \ # Should not be in here
+    dialogs/nativedialogs.h \
     dialogs/preferencesdialog.h \
     dialogs/updatedialog.h \
-    kscemailtrackerapplicationmac.h
+    kscemailtrackerapplicationmac.h \
+    trackerwebpage.h
 SOURCES += \
     kscemailtrackerapplication.cpp \
     mailmessageinfo.cpp \
@@ -44,9 +45,10 @@ SOURCES += \
     dialogs/aboutdialog.cpp \
     dialogs/alertdialog.cpp \
     dialogs/licensedialog.cpp \
-    dialogs/nativedialogs.cpp \ # Should not be in here
+    dialogs/nativedialogs.cpp \
     dialogs/preferencesdialog.cpp \
-    dialogs/updatedialog.cpp
+    dialogs/updatedialog.cpp \
+    trackerwebpage.cpp
 macx:OBJECTIVE_SOURCES += helper.mm kscemailtrackerapplicationmac.mm
 FORMS += \
     mainwindow.ui \
@@ -106,5 +108,19 @@ macx:QMAKE_INFO_PLIST = Info.plist
 # Show the console when debugging on Windows
 win32:CONFIG(debug, debug|release):CONFIG += console
 
+win32 {
 
+    ## Windows common build here
 
+    !contains(QMAKE_HOST.arch, x86_64) {
+        message("x86 build")
+
+        ## Windows x86 (32bit) specific build here
+
+    } else {
+        message("x86_64 build")
+
+        ## Windows x64 (64bit) specific build here
+
+    }
+}

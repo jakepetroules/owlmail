@@ -3,6 +3,7 @@
 #include "kscemailtrackerapplication.h"
 #include "mailmessageinfo.h"
 #include "trackerpreferences.h"
+#include "trackerwebpage.h"
 #include "dialogs/aboutdialog.h"
 #include "dialogs/alertdialog.h"
 #include "dialogs/preferencesdialog.h"
@@ -170,6 +171,8 @@ void MainWindow::initialize()
     this->m_lastRefresh = QDateTime::currentDateTime().toUTC();
 
     // This loads the browser for the first time so the user doesn't wait 60 seconds initially
+    TrackerWebPage *page = new TrackerWebPage(this);
+    this->ui->webView->setPage(page);
     this->ui->webView->setUrl(QString(INITIAL_MAIL_PAGE));
     this->browserReload();
 

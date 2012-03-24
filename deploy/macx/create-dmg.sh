@@ -12,7 +12,7 @@ BUNDLE="$FRIENDLYNAME.app"
 DISKIMAGE="$APPNAME.dmg"
 SRCDIR="$PWD/../../$APPNAME-build-desktop/desktop"
 DMGDIR="$PWD/tmp"
-CREATEDMGDIR="$PWD/../../src/3rdparty/temp/create-dmg"
+CREATEDMGDIR="$PWD/../../src/3rdparty/temp-mac64/create-dmg"
 
 if [ ! -d "$SRCDIR/$OLDBUNDLE" ] ; then
     echo "ERROR: cannot find application bundle \"$OLDBUNDLE\" in directory \"$SRCDIR\""
