@@ -1,6 +1,10 @@
 #include "trackerpreferences.h"
 #include "trackerpreferences_keys.h"
 #include "mailmessageinfo.h"
+#include <QDesktopServices>
+#ifdef Q_WS_MAC
+#include "mac/macloginitemsmanager.h"
+#endif
 
 TrackerPreferences* TrackerPreferences::m_instance = NULL;
 TrackerPreferences* TrackerPreferences::m_defaults = NULL;
@@ -241,10 +245,10 @@ void TrackerPreferences::removeMessageWithId(int id)
  */
 bool TrackerPreferences::runAtStartupSupported()
 {
-#ifdef Q_WS_WIN
+#if defined(Q_WS_WIN) || defined(Q_WS_MAC)
     return true;
 #elif defined(Q_OS_LINUX)
-    return !SilverlockPreferences::startupFile().isEmpty();
+    return !TrackerPreferences::startupFile().isEmpty();
 #else
     return false;
 #endif
@@ -255,7 +259,6 @@ bool TrackerPreferences::runAtStartup() const
     if (!TrackerPreferences::runAtStartupSupported())
     {
         qWarning() << "Run at startup is not supported on this platform and configuration.";
-        return false;
     }
 
 #ifdef Q_WS_WIN
@@ -264,8 +267,13 @@ bool TrackerPreferences::runAtStartup() const
     // If we're running on Windows, set the check box if the registry contains the correct key set to the running application's path
     QSettings reg(KEY_WIN_STARTUP_PATH, QSettings::NativeFormat);
     return reg.contains(KEY_WIN_STARTUP_NAME) && reg.value(KEY_WIN_STARTUP_NAME).toString().compare(path, Qt::CaseInsensitive) == 0;
+#elif defined(Q_WS_MAC)
+    MacLoginItemsManager manager;
+    return manager.containsRunningApplication();
 #elif defined(Q_OS_LINUX)
     return QFile::exists(TrackerPreferences::startupFile());
+#else
+    return false;
 #endif
 }
 
@@ -287,6 +295,20 @@ void TrackerPreferences::setRunAtStartup(bool run)
     else
     {
         settings.remove(KEY_WIN_STARTUP_NAME);
+    }
+#elif defined(Q_WS_MAC)
+    if (QFile::exists(TrackerPreferences::macLoginItemsFile()))
+    {
+        MacLoginItemsManager manager;
+
+        if (run && !TrackerPreferences::runAtStartup())
+        {
+            manager.appendRunningApplication();
+        }
+        else if (!run && TrackerPreferences::runAtStartup())
+        {
+            manager.removeRunningApplication();
+        }
     }
 #elif defined(Q_OS_LINUX)
     switch (LinuxSystemInfo::desktopEnvironment())
@@ -362,6 +384,7 @@ void TrackerPreferences::setUpdateInstallerPath(const QString &path)
 
 // Platform-specific methods...
 #ifdef Q_WS_WIN
+
 /*!
     Gets the path of the running application with native separators and enclosed in quotes, suitable
     for entry into the Windows registry.
@@ -370,6 +393,17 @@ QString TrackerPreferences::applicationPathForRegistry()
 {
     return QString("\"%1\"").arg(QDir::toNativeSeparators(QCoreApplication::applicationFilePath()));
 }
+
+#elif defined(Q_WS_MAC)
+
+/*!
+    Gets the property list file for login items on Mac OS X.
+ */
+QString TrackerPreferences::macLoginItemsFile()
+{
+    return QDesktopServices::storageLocation(QDesktopServices::HomeLocation) + "/Library/Preferences/loginwindow.plist";
+}
+
 #elif defined(Q_OS_LINUX)
 /*!
     Gets the absolute path of the run-at-startup file for the current desktop environment.

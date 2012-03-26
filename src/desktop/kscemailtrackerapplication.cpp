@@ -121,10 +121,11 @@ bool KSCEmailTrackerApplication::event(QEvent *event)
     case QEvent::ApplicationActivate:
         this->showMainWindow();
         break;
+    default:
+        break;
     }
 
-    event->accept();
-    return true;
+    return IntegratedApplication::event(event);
 }
 
 void KSCEmailTrackerApplication::showMainWindow()

@@ -3,9 +3,6 @@
 #include "mailmessageinfo.h"
 #include "trackerpreferences.h"
 
-#define KEY_PATH "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run"
-#define KEY_NAME "KSC Email Tracker"
-
 /*!
     \class PreferencesDialog
 
@@ -39,18 +36,16 @@ PreferencesDialog::PreferencesDialog(QWidget* parent) :
         this->ui->tableMessages->setCellWidget(i, 3, new QLabel(TrackerPreferences::instance().suppressedMessages()->at(i)->received().toString("MM/dd/yyyy hh:mm AP")));
     }
 
-#ifdef Q_OS_WIN32
-    // If we're running on Windows, set the check box if the registry contains the correct key set to the running application's path
-    QSettings reg(KEY_PATH, QSettings::NativeFormat);
-    if (reg.contains(KEY_NAME) && reg.value(KEY_NAME).toString().compare(this->getApplicationFilePath(), Qt::CaseInsensitive))
+    if (TrackerPreferences::instance().runAtStartupSupported())
     {
-        this->ui->startWithWindowsCheckBox->setChecked(true);
+        this->ui->startAtLoginCheckBox->setChecked(TrackerPreferences::instance().runAtStartup());
     }
-#else
-    // Otherwise, disable and hide the start with Windows check box
-    this->ui->startWithWindowsCheckBox->setEnabled(false);
-    this->ui->startWithWindowsCheckBox->setVisible(false);
-#endif
+    else
+    {
+        // Otherwise, disable and hide the start at login check box
+        this->ui->startAtLoginCheckBox->setEnabled(false);
+        this->ui->startAtLoginCheckBox->setVisible(false);
+    }
 }
 
 /*!
@@ -80,27 +75,7 @@ void PreferencesDialog::changeEvent(QEvent* e)
  */
 void PreferencesDialog::toggleStartup(int state)
 {
-    QSettings settings(KEY_PATH, QSettings::NativeFormat);
-    if (state == Qt::Checked)
-    {
-        settings.setValue(KEY_NAME, "\"" + this->getApplicationFilePath() + "\"");
-    }
-    else if (state == Qt::Unchecked)
-    {
-        settings.remove(KEY_NAME);
-    }
-}
-
-/*!
-    Gets the file path of the currently running application.
- */
-QString PreferencesDialog::getApplicationFilePath() const
-{
-    QString str = QApplication::applicationFilePath();
-    #ifdef Q_OS_WIN32
-    str.replace("/", "\\");
-    #endif
-    return str;
+    TrackerPreferences::instance().setRunAtStartup(state == Qt::Checked);
 }
 
 /*!
@@ -152,9 +127,7 @@ void PreferencesDialog::accept()
         TrackerPreferences::instance().removeMessageWithId(this->m_idsRemoved->at(i));
     }
 
-    #ifdef Q_OS_WIN32
-    this->toggleStartup(this->ui->startWithWindowsCheckBox->checkState());
-    #endif
+    this->toggleStartup(this->ui->startAtLoginCheckBox->checkState());
 
     this->done(QDialog::Accepted);
 }

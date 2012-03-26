@@ -76,16 +76,14 @@ void AboutDialog::displayBuildInformationDialog()
                                 "<li>Qt %4</li>"
                                 "<li>Qt Solutions %5</li>"
                                 "<li>Petroules Utilities %6</li>"
-                                "<li>Botan %7</li>"
                                 "</ul>"
-                                "<p>Running on %8 with a %9 processor.</p>")
+                                "<p>Running on %7 with a %8 processor.</p>")
         .arg(QT_VERSION_STR)
         .arg(qtType)
         .arg(PlatformInformation::compilerString())
         .arg(qVersion())
         .arg("2.6")
         .arg(PETROULESUTILITIES_VERSION_STR)
-        .arg("")
         .arg(osString)
         .arg(PlatformInformation::byteOrder());
 

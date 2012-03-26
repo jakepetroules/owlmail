@@ -4,5 +4,4 @@ deploy/win32/*.msi
 deploy/win32/*.sln
 deploy/win32/*.suo
 kscemailtracker-build-*
-src/.metadata
-src/*.pro.user
+*.pro.user

@@ -1,3 +1,5 @@
+!include(../../kscemailtracker.pri):error(../../kscemailtracker.pri is missing)
+
 # --------------------------------------------------
 # This section contains project configuration
 # directives such as the required Qt modules, the
@@ -57,9 +59,18 @@ RESOURCES += \
     resources.qrc \
     ../../res/globalresources.qrc
 OTHER_FILES += \
-    kscemailtracker.rc \
-    kscemailtracker.manifest \
+    $${TARGET}.rc \
+    $${TARGET}.manifest \
     Info.plist
+
+# --------------------------------------------------
+# Destination directory and build configuration
+# --------------------------------------------------
+
+DESTDIR = $$OUT_PWD/../../bin
+
+CONFIG(release, debug|release):DESTDIR = $$DESTDIR/release
+else:CONFIG(debug, debug|release):DESTDIR = $$DESTDIR/debug
 
 # --------------------------------------------------
 # This section contains all libraries that the
@@ -70,48 +81,26 @@ OTHER_FILES += \
 win32:LIBS += -luser32
 macx:LIBS += -framework Cocoa
 
-PETROULESUTILITIES_PATH = ../petroules-utilities-qt/src
-QTSOLUTIONS_PATH = $$PETROULESUTILITIES_PATH/../lib/qtsingleapplication/src
-
 # Petroules Utilities library
+includeLib(../../lib/petroules-utilities-qt/src, petroules-utilities, static)
 
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/$$PETROULESUTILITIES_PATH/release/ -lpetroules-utilities
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/$$PETROULESUTILITIES_PATH/debug/ -lpetroules-utilities
-else:symbian: LIBS += -lpetroules-utilities
-else:unix: LIBS += -L$$OUT_PWD/$$PETROULESUTILITIES_PATH/ -lpetroules-utilities
-
-# We have to make sure we include the QtSingleApplication headers
-# path because it will get indirectly included from THIS project
-INCLUDEPATH += $$PWD/$$PETROULESUTILITIES_PATH $$PWD/$$QTSOLUTIONS_PATH
-DEPENDPATH += $$PWD/$$PETROULESUTILITIES_PATH $$PWD/$$QTSOLUTIONS_PATH
-
-macx:PRE_TARGETDEPS += $$OUT_PWD/$$PETROULESUTILITIES_PATH/libpetroules-utilities.a
+# OpenSSL
+win32:QMAKE_PRE_LINK += $$QMAKE_COPY $$formatpath($$PWD/../../lib/openssl-win32/*.dll) $$formatpath($$DESTDIR)
 
 # --------------------------------------------------
 # This section contains miscellaneous commands such
 # as Windows resource files and icons for Mac OS X
 # --------------------------------------------------
 
-win32:RC_FILE = kscemailtracker.rc
+win32:RC_FILE = $${TARGET}.rc
 macx:ICON = ../../res/app.icns
 macx:QMAKE_INFO_PLIST = Info.plist
 
 # Show the console when debugging on Windows
 win32:CONFIG(debug, debug|release):CONFIG += console
 
-win32 {
-
-    ## Windows common build here
-
-    !contains(QMAKE_HOST.arch, x86_64) {
-        message("x86 build")
-
-        ## Windows x86 (32bit) specific build here
-
-    } else {
-        message("x86_64 build")
-
-        ## Windows x64 (64bit) specific build here
-
-    }
+!contains(QMAKE_HOST.arch, x86_64) {
+    !build_pass:message("x86 build")
+} else {
+    !build_pass:message("x86_64 build")
 }

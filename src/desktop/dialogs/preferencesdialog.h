@@ -29,7 +29,6 @@ protected slots:
     void reject();
 
 private:
-    QString getApplicationFilePath() const;
     Ui::PreferencesDialog* ui;
     QList<int>* m_idsRemoved;
 };

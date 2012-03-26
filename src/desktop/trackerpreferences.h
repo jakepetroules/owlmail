@@ -2,7 +2,7 @@
 #define TRACKERPREFERENCES_H
 
 #include <QtCore>
-#include <petroules-utilities.h>
+#include "linuxsysteminfo.h"
 
 class MailMessageInfo;
 
@@ -47,6 +47,8 @@ private:
 
 #ifdef Q_WS_WIN
     static QString applicationPathForRegistry();
+#elif defined(Q_WS_MAC)
+    static QString macLoginItemsFile();
 #elif defined(Q_OS_LINUX)
     static QString startupFile();
     static QString startupFileFor(LinuxSystemInfo::DesktopEnvironment desktopEnvironment);
