@@ -1,9 +1,9 @@
-[KSC Email Tracker](http://www.jakepetroules.com/downloads/ksc-email-tracker)
+[OwlMail](http://ksccsclub.github.com/owlmail)
 ============
 
 This is an application for Keene State College (www.keene.edu) students to receive near real-time alerts when they receive emails. As KSC uses the CampusCruiser system, it is not possible to use regular email clients such as Microsoft Outlook and Mozilla Thunderbird, so this provides a solution.
 
-KSC Email Tracker allows the user to enter his or her MyKSC username and password in the options dialog. The program will use the credentials to automatically log the user in to the MyKSC email system. Every 60 seconds, the program will check the user’s inbox, and will pop up a small dialog in the lower right hand corner of the screen to notify the user that an email message has arrived.
+OwlMail allows the user to enter his or her MyKSC username and password in the options dialog. The program will use the credentials to automatically log the user in to the MyKSC email system. Every 60 seconds, the program will check the user’s inbox, and will pop up a small dialog in the lower right hand corner of the screen to notify the user that an email message has arrived.
 
 The program can also be set not to display alerts for certain individual messages. This can be useful if a user wants to leave messages in the unread state but not be continually alerted about them.
 
@@ -14,7 +14,7 @@ Additionally, the Windows version of the application allows users to set the pro
 Quick start
 -----------
 
-Clone the repo, `git clone git@github.com:jakepetroules/kscemailtracker.git`, or [download the latest release](http://www.jakepetroules.com/downloads/ksc-email-tracker).
+Clone the repo, `git clone git@github.com:ksccsclub/owlmail.git`, or [download the latest release](http://ksccsclub.github.com/owlmail).
 
 
 
@@ -23,7 +23,7 @@ Bug tracker
 
 If you've found a bug, please create an issue here on GitHub!
 
-https://github.com/jakepetroules/kscemailtracker/issues
+https://github.com/ksccsclub/owlmail/issues
 
 
 
@@ -44,15 +44,22 @@ Requirements:
 
 ### Building for Desktop (Windows, Mac OS X, Linux)
 
-Open `src/kscemailtracker.pro` in Qt Creator and click build.
+Open `src/owlmail.pro` in Qt Creator and click build.
 
 
 
 Authors
 -------
 
+**Keene State College Computer Science club**
+
++ http://www.ksccsclub.com/
++ http://twitter.com/ksccsclub
++ http://github.com/ksccsclub
+
 **Jake Petroules**
 
++ http://www.jakepetroules.com/
 + http://twitter.com/jakepetroules
 + http://github.com/jakepetroules
 
@@ -61,7 +68,7 @@ Authors
 Copyright and license
 ---------------------
 
-Copyright (c) 2010-2012 Jake Petroules. All rights reserved.
+Copyright (c) 2010-2012 KSC CS Club, Jake Petroules. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:

@@ -3,7 +3,7 @@
 /*!
     \class MailMessageInfo
 
-    This class encapsulates MyKSC email message details.
+    This class encapsulates email message details.
  */
 
 /*!

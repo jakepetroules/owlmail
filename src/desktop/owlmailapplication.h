@@ -1,15 +1,15 @@
-#ifndef KSCEMAILTRACKERAPPLICATION_H
-#define KSCEMAILTRACKERAPPLICATION_H
+#ifndef OWLMAILAPPLICATION_H
+#define OWLMAILAPPLICATION_H
 
 #include <petroules-utilities.h>
 
-class KSCEmailTrackerApplication : public IntegratedApplication
+class OwlMailApplication : public IntegratedApplication
 {
     Q_OBJECT
 
 public:
-    explicit KSCEmailTrackerApplication(int &argc, char *argv[]);
-    ~KSCEmailTrackerApplication();
+    explicit OwlMailApplication(int &argc, char *argv[]);
+    ~OwlMailApplication();
     virtual bool handleReopen(bool hasVisibleWindows);
 
 public slots:
@@ -33,6 +33,6 @@ private:
     Private *d;
 };
 
-#define qkApp (qobject_cast<KSCEmailTrackerApplication*>(qApp))
+#define qkApp (qobject_cast<OwlMailApplication*>(qApp))
 
-#endif // KSCEMAILTRACKERAPPLICATION_H
+#endif // OWLMAILAPPLICATION_H

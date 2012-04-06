@@ -17,8 +17,8 @@
    <item>
     <widget class="QLabel" name="infoLabel">
      <property name="text">
-      <string>&lt;p align=&quot;center&quot;&gt;KSC Email Tracker is made possible by &lt;a href=&quot;http://www.petroules.com/&quot;&gt;Petroules Enterprises&lt;/a&gt;, &lt;a href=&quot;http://qt.nokia.com/&quot;&gt;Qt&lt;/a&gt; and other open source software.&lt;br /&gt;
-Herein are the licenses for KSC Email Tracker and each of the projects it is linked with.&lt;/p&gt;</string>
+      <string>&lt;p align=&quot;center&quot;&gt;OwlMail is made possible by &lt;a href=&quot;http://qt.nokia.com/&quot;&gt;Qt&lt;/a&gt; and other open source software.&lt;br /&gt;
+Herein are the licenses for OwlMail and each of the projects it is linked with.&lt;/p&gt;</string>
      </property>
      <property name="textFormat">
       <enum>Qt::RichText</enum>
@@ -33,25 +33,25 @@ Herein are the licenses for KSC Email Tracker and each of the projects it is lin
      <property name="currentIndex">
       <number>0</number>
      </property>
-     <widget class="QWidget" name="kscemailtrackerPage">
+     <widget class="QWidget" name="owlMailPage">
       <property name="geometry">
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>622</width>
-        <height>413</height>
+        <width>616</width>
+        <height>394</height>
        </rect>
       </property>
       <attribute name="label">
-       <string>KSC Email Tracker</string>
+       <string>OwlMail</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
-        <widget class="QLabel" name="kscemailtrackerLabel">
+        <widget class="QLabel" name="owlMailLabel">
          <property name="text">
-          <string>Copyright &amp;copy; 2010 Petroules Enterprises, All Rights Reserved&lt;br /&gt;
-Contact: Petroules Enterprises (&lt;a href=&quot;mailto:support@petroules.com&quot;&gt;support@petroules.com&lt;/a&gt;)&lt;br /&gt;
-&lt;a href=&quot;http://www.petroules.com/products/kscemailtracker/&quot;&gt;http://www.petroules.com/products/kscemailtracker/&lt;/a&gt;</string>
+          <string>Copyright &amp;copy; 2010-2012 KSC CS Club, Jake Petroules, All Rights Reserved&lt;br /&gt;
+Contact: KSC CS Club (&lt;a href=&quot;mailto:club@ksccsclub.com&quot;&gt;club@ksccsclub.com&lt;/a&gt;)&lt;br /&gt;
+&lt;a href=&quot;http://ksccsclub.github.com/owlmail&quot;&gt;http://ksccsclub.github.com/owlmail&lt;/a&gt;</string>
          </property>
          <property name="textFormat">
           <enum>Qt::RichText</enum>
@@ -62,47 +62,7 @@ Contact: Petroules Enterprises (&lt;a href=&quot;mailto:support@petroules.com&qu
         </widget>
        </item>
        <item>
-        <widget class="QTextBrowser" name="kscemailtrackerLicense">
-         <property name="openExternalLinks">
-          <bool>true</bool>
-         </property>
-         <property name="openLinks">
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="lielPage">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>310</width>
-        <height>134</height>
-       </rect>
-      </property>
-      <attribute name="label">
-       <string>LIEL - Language Independent Extension Library</string>
-      </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_6">
-       <item>
-        <widget class="QLabel" name="lielLabel">
-         <property name="text">
-          <string>Copyright &amp;copy; 2010 Petroules Enterprises, All Rights Reserved&lt;br /&gt;
-Contact: Petroules Enterprises (&lt;a href=&quot;mailto:support@petroules.com&quot;&gt;support@petroules.com&lt;/a&gt;)&lt;br /&gt;
-&lt;a href=&quot;http://www.petroules.com/products/liel/&quot;&gt;http://www.petroules.com/products/liel/&lt;/a&gt;</string>
-         </property>
-         <property name="textFormat">
-          <enum>Qt::RichText</enum>
-         </property>
-         <property name="openExternalLinks">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QTextBrowser" name="lielLicense">
+        <widget class="QTextBrowser" name="owlMailLicense">
          <property name="openExternalLinks">
           <bool>true</bool>
          </property>
@@ -118,8 +78,8 @@ Contact: Petroules Enterprises (&lt;a href=&quot;mailto:support@petroules.com&qu
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>319</width>
-        <height>274</height>
+        <width>616</width>
+        <height>394</height>
        </rect>
       </property>
       <attribute name="label">
@@ -168,8 +128,8 @@ Contact: Nokia Corporation (&lt;a href=&quot;mailto:qt-info@nokia.com&quot;&gt;q
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>465</width>
-        <height>380</height>
+        <width>639</width>
+        <height>419</height>
        </rect>
       </property>
       <attribute name="label">
@@ -247,7 +207,7 @@ See above to view the LGPL 2.1 license under which Nokia's version of QtSingleAp
   </layout>
  </widget>
  <tabstops>
-  <tabstop>kscemailtrackerLicense</tabstop>
+  <tabstop>owlMailLicense</tabstop>
   <tabstop>qtLicense</tabstop>
   <tabstop>qsaLicense</tabstop>
   <tabstop>buttonBox</tabstop>

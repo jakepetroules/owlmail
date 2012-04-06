@@ -12,7 +12,7 @@ TrackerPreferences* TrackerPreferences::m_defaults = NULL;
 /*!
     \class TrackerPreferences
 
-    Represents the KSC Email Tracker application settings.
+    Represents the application settings.
  */
 
 /*!

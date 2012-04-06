@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>KSC Email Tracker</string>
+   <string>OwlMail</string>
   </property>
   <property name="windowIcon">
    <iconset resource="../../res/globalresources.qrc">
@@ -122,7 +122,7 @@
   </action>
   <action name="actionAbout">
    <property name="text">
-    <string>About KSC Email Tracker</string>
+    <string>About OwlMail</string>
    </property>
    <property name="statusTip">
     <string>Show the application's about box</string>
@@ -165,7 +165,7 @@
     <string>Website</string>
    </property>
    <property name="statusTip">
-    <string>Visit the KSC Email Tracker website</string>
+    <string>Visit the OwlMail website</string>
    </property>
   </action>
   <action name="actionDonate">

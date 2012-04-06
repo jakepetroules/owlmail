@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "kscemailtrackerapplication.h"
+#include "owlmailapplication.h"
 #include "mailmessageinfo.h"
 #include "trackerpreferences.h"
 #include "trackerwebpage.h"
@@ -18,7 +18,7 @@
 /*!
     \class MainWindow
 
-    Represents the main window of the KSC Email Tracker application.
+    Represents the main window of the application.
  */
 
 /*!

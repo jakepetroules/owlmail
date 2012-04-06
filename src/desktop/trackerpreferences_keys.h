@@ -14,6 +14,6 @@
 
 // Miscellaneous settings (loaded and saved manually by the user)
 #define KEY_WIN_STARTUP_PATH "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run"
-#define KEY_WIN_STARTUP_NAME "KSC Email Tracker"
+#define KEY_WIN_STARTUP_NAME "OwlMail"
 
 #endif // TRACKERPREFERENCES_KEYS_H

@@ -1,10 +1,10 @@
 #include <QtGui>
-#include "kscemailtrackerapplication.h"
+#include "owlmailapplication.h"
 #include "mainwindow.h"
 
 int main(int argc, char *argv[])
 {
-    KSCEmailTrackerApplication instance(argc, argv);
+    OwlMailApplication instance(argc, argv);
 
     // Send a string comprised of all but the first argument (the application name) to any other
     // instance that may be running, and bail out if it received it (e.g. it is running)

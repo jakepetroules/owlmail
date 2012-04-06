@@ -1,4 +1,4 @@
-#include "kscemailtrackerapplication.h"
+#include "owlmailapplication.h"
 #include "trackerpreferences.h"
 #include "version.h"
 #include "mainwindow.h"
@@ -6,14 +6,14 @@
 #include "dialogs/preferencesdialog.h"
 #include "dialogs/updatedialog.h"
 
-class KSCEmailTrackerApplication::Private
+class OwlMailApplication::Private
 {
 public:
     Private() : updateDialog(NULL) { }
     UpdateDialog *updateDialog;
 };
 
-KSCEmailTrackerApplication::KSCEmailTrackerApplication(int &argc, char *argv[]) :
+OwlMailApplication::OwlMailApplication(int &argc, char *argv[]) :
     IntegratedApplication(VER_APP_UUID, argc, argv), d(new Private())
 {
     Q_INIT_RESOURCE(globalresources);
@@ -29,11 +29,11 @@ KSCEmailTrackerApplication::KSCEmailTrackerApplication(int &argc, char *argv[]) 
     this->setCopyright(VER_LEGALCOPYRIGHT_STR);
     this->setTrademarks(VER_LEGALTRADEMARKS1_STR);
 
-    this->setUrl(OrganizationHomePage, QUrl("http://www.petroules.com/"));
-    this->setUrl(OrganizationDonations, QUrl("http://www.petroules.com/donate"));
-    this->setUrl(ApplicationHomePage, QUrl("http://www.petroules.com/products/kscemailtracker"));
-    this->setUrl(ApplicationHelp, QUrl("http://www.petroules.com/support/kscemailtracker"));
-    this->setUrl(ApplicationUpdate, QUrl("https://www.petroules.com/version/kscemailtracker/"));
+    this->setUrl(OrganizationHomePage, QUrl("http://www.ksccsclub.com/"));
+    this->setUrl(OrganizationDonations, QUrl("http://www.ksccsclub.com/"));
+    this->setUrl(ApplicationHomePage, QUrl("http://ksccsclub.github.com/owlmail"));
+    this->setUrl(ApplicationHelp, QUrl("http://ksccsclub.github.com/owlmail"));
+    this->setUrl(ApplicationUpdate, QUrl("http://ksccsclub.github.com/owlmail"));
 
     // Create the update dialog and have it do a check within 5 seconds if this was selected in the options
     this->d->updateDialog = new UpdateDialog(NULL);
@@ -44,7 +44,7 @@ KSCEmailTrackerApplication::KSCEmailTrackerApplication(int &argc, char *argv[]) 
     }
 }
 
-KSCEmailTrackerApplication::~KSCEmailTrackerApplication()
+OwlMailApplication::~OwlMailApplication()
 {
     if (this->d)
     {
@@ -60,7 +60,7 @@ KSCEmailTrackerApplication::~KSCEmailTrackerApplication()
     TrackerPreferences::instance().destroy();
 }
 
-bool KSCEmailTrackerApplication::handleReopen(bool hasVisibleWindows)
+bool OwlMailApplication::handleReopen(bool hasVisibleWindows)
 {
     if (!hasVisibleWindows)
     {
@@ -70,17 +70,17 @@ bool KSCEmailTrackerApplication::handleReopen(bool hasVisibleWindows)
     return true;
 }
 
-void KSCEmailTrackerApplication::showHelpContents()
+void OwlMailApplication::showHelpContents()
 {
     QDesktopServices::openUrl(this->url(ApplicationHelp));
 }
 
-void KSCEmailTrackerApplication::launchProductWebsite()
+void OwlMailApplication::launchProductWebsite()
 {
     QDesktopServices::openUrl(this->url(ApplicationHomePage));
 }
 
-void KSCEmailTrackerApplication::launchDonationsWebsite()
+void OwlMailApplication::launchDonationsWebsite()
 {
     QDesktopServices::openUrl(this->url(OrganizationDonations));
 }
@@ -88,7 +88,7 @@ void KSCEmailTrackerApplication::launchDonationsWebsite()
 /*!
     Displays the check for updates dialog.
  */
-void KSCEmailTrackerApplication::checkForUpdates()
+void OwlMailApplication::checkForUpdates()
 {
     this->d->updateDialog->show();
     this->checkForUpdatesSilent();
@@ -97,24 +97,24 @@ void KSCEmailTrackerApplication::checkForUpdates()
 /*!
     Checks for updates and only shows the dialog if an update is available.
  */
-void KSCEmailTrackerApplication::checkForUpdatesSilent()
+void OwlMailApplication::checkForUpdatesSilent()
 {
     this->d->updateDialog->check();
 }
 
-void KSCEmailTrackerApplication::preferences()
+void OwlMailApplication::preferences()
 {
     PreferencesDialog preferences;
     preferences.exec();
 }
 
-void KSCEmailTrackerApplication::about()
+void OwlMailApplication::about()
 {
     AboutDialog dialog;
     dialog.exec();
 }
 
-bool KSCEmailTrackerApplication::event(QEvent *event)
+bool OwlMailApplication::event(QEvent *event)
 {
     switch (event->type())
     {
@@ -128,7 +128,7 @@ bool KSCEmailTrackerApplication::event(QEvent *event)
     return IntegratedApplication::event(event);
 }
 
-void KSCEmailTrackerApplication::showMainWindow()
+void OwlMailApplication::showMainWindow()
 {
     foreach (QWidget *widget, this->topLevelWidgets())
     {

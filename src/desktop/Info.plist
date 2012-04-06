@@ -5,11 +5,11 @@
     <key>CFBundleSignature</key>
     <string>PETR</string>
     <key>CFBundleDisplayName</key>
-    <string>KSC Email Tracker</string>
+    <string>OwlMail</string>
     <key>CFBundleIdentifier</key>
-    <string>com.jakepetroules.kscemailtracker</string>
+    <string>com.ksccsclub.owlmail</string>
     <key>CFBundleName</key>
-    <string>KSC Email Tracker</string>
+    <string>OwlMail</string>
     <key>CFBundlePackageType</key>
     <string>APPL</string>
     <key>CFBundleVersion</key>
@@ -17,7 +17,7 @@
     <key>CFBundleShortVersionString</key>
     <string>1.1.1</string>
     <key>NSHumanReadableCopyright</key>
-    <string>Copyright &#169; 2010-2012 Petroules Corporation</string>
+    <string>Copyright &#169; 2010-2012 KSC CS Club, Jake Petroules</string>
     <key>CFBundleExecutable</key>
     <string>@EXECUTABLE@</string>
     <key>CFBundleIconFile</key>

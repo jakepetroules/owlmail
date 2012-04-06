@@ -1,4 +1,4 @@
-!include(../../kscemailtracker.pri):error(../../kscemailtracker.pri is missing)
+!include(../../owlmail.pri):error(../../owlmail.pri is missing)
 
 # --------------------------------------------------
 # This section contains project configuration
@@ -9,7 +9,8 @@
 
 QT += network svg webkit xml
 TEMPLATE = app
-TARGET = kscemailtracker
+macx:TARGET = OwlMail
+else:TARGET = owlmail
 
 # --------------------------------------------------
 # This section contains all the main code/resource
@@ -24,7 +25,7 @@ TARGET = kscemailtracker
 # --------------------------------------------------
 
 HEADERS += \
-    kscemailtrackerapplication.h \
+    owlmailapplication.h \
     mailmessageinfo.h \
     mainwindow.h \
     trackerpreferences.h \
@@ -37,7 +38,7 @@ HEADERS += \
     dialogs/updatedialog.h \
     trackerwebpage.h
 SOURCES += \
-    kscemailtrackerapplication.cpp \
+    owlmailapplication.cpp \
     mailmessageinfo.cpp \
     main.cpp \
     mainwindow.cpp \

@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>New MyKSC Email Messages</string>
+   <string>Unread messages</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <property name="margin">
